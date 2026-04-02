@@ -1,17 +1,22 @@
 ---
-title: "RAG-Based Detection of Cognitive Biases in Professional Decision Narratives: A Feasibility Study"
+title: "Early Identification of Human Cognitive Biases in the Design of Joint Cognitive Systems: A Feasibility Study"
 author:
-  - name: Joel Surall
-    affiliation: University of Twente
-    email: j.surall@student.utwente.nl
-    orcid: ""
   - name: Martin Schmettow
     affiliation: University of Twente
     email: m.schmettow@utwente.nl
     orcid: ""
-date: 2026
+  - name: Joel Surall
+    affiliation: University of Twente
+    email: j.surall@student.utwente.nl
+    orcid: ""
+  - name: Valeria Resendez Gomez
+    affiliation: University of Twente
+    email: v.d.c.resendez@utwente.nl
+    orcid: ""
+    
+date: "2026"
 abstract: |
-  Cognitive biases systematically impair professional decision-making, and AI systems trained on human-generated data risk inheriting or amplifying these distortions. This paper presents a proof-of-concept for a literature-grounded retrieval-augmented generation (RAG) system aimed at detecting cognitive biases in professional decision narratives, with dual application goals: preventing biased patterns from entering AI training data (conservative strategy) and enabling targeted bias mitigation in joint human--AI operation. Across five professional domains---emergency medicine, aviation, finance, cybersecurity, and engineering---the system identified 20 of 21 intentionally embedded biases in structured scenarios. Testing with simulated Cognitive Task Analysis (CTA) interview narratives revealed key technical constraints, including prompt-length limits and hardware-dependent model capacity. A local open-source RAG implementation partially addressed these constraints. Findings indicate that retrieval-grounded approaches are a promising starting point for AI-supported bias awareness in complex professional contexts, contingent on curated knowledge bases and capable language models.
+  Cognitive biases systematically impair professional decision-making, and AI systems trained on human-generated data risk inheriting or amplifying these distortions. This paper presents a proof-of-concept for a literature-grounded retrieval-augmented generation (RAG) system aimed at detecting cognitive biases in simulated narratives, with dual application goals: preventing biased patterns from entering AI training data and enabling targeted bias mitigation in joint human--AI operation. Across five professional domains---emergency medicine, aviation, finance, cybersecurity, and engineering---the system identified 20 of 21 intentionally embedded biases in structured scenarios. Testing with simulated Cognitive Task Analysis (CTA) interview narratives revealed key technical requirements for a RAG-based expert system, including prompt-length limits and model capacity. Findings indicate that retrieval-grounded approaches are a promising starting point for AI-supported bias awareness in complex professional contexts, contingent on curated knowledge bases and capable language models.
 keywords:
   - cognitive bias
   - retrieval-augmented generation
@@ -22,19 +27,19 @@ keywords:
 bibliography: references.bib
 csl: acm-sig-proceedings.csl   # swap for your preferred ACM CSL
 format:
-  pdf:
-    documentclass: acmart
-    classoption:
-      - sigconf
-      - review
-    keep-tex: false
-    number-sections: true
-    colorlinks: true
-    geometry:
-      - top=1in
-      - bottom=1.25in
-      - left=0.75in
-      - right=0.75in
+  # pdf:
+  #   documentclass: acmart
+  #   classoption:
+  #     - sigconf
+  #     - review
+  #   keep-tex: false
+  #   number-sections: true
+  #   colorlinks: true
+  #   geometry:
+  #     - top=1in
+  #     - bottom=1.25in
+  #     - left=0.75in
+  #     - right=0.75in
   html:
     toc: true
     number-sections: true
@@ -57,17 +62,15 @@ In response to these challenges, recent research has explored debiasing strategi
 
 ## Retrieval-Augmented Generation for Bias Detection
 
-A promising technological approach for enabling such support is retrieval-augmented generation (RAG). In contrast to unguided language model generation, RAG systems combine generative models with external knowledge retrieval, allowing responses to be grounded in a curated body of literature or domain-specific knowledge [@albashrawi2025; @soroush2025]. This grounding improves transparency and traceability by linking generated explanations to identifiable sources. For topics such as cognitive bias detection, this architecture is particularly relevant because meaningful support requires connecting narrative descriptions of decision processes with established theoretical concepts and evidence-based debiasing strategies.
+The idea of cognitive biases originated in the so-called Bounded Rationality paradigm, initiated  by Kahnemann & Tversky and their colleagues, which made an end to the assumptions that human behaviour can be described as rational decision-making. The theme of Bounded Rationality has been very productive in the past and present, which makes it challenging to absorb for human experts. At the same time the immense body of literature could serve very well to create an LLM-based conversational agent using retrieval-augmented generation (RAG). In contrast to unguided language model generation, RAG systems combine generative models with external knowledge retrieval, allowing responses to be grounded in a curated body of literature or domain-specific knowledge [@albashrawi2025; @soroush2025]. This grounding improves transparency and traceability by linking generated explanations to identifiable sources. For topics such as cognitive bias detection, this architecture is particularly relevant because meaningful support requires connecting narrative descriptions of decision processes with established theoretical concepts and evidence-based debiasing strategies.
 
 Detecting biases in realistic professional narratives, however, remains difficult. Cognitive biases are rarely expressed explicitly; instead, they are often reflected indirectly in interpretation patterns, selective framing of information, or reliance on memorable narratives rather than statistical evidence [@echterhoff2024; @korteling2023]. These characteristics make subtle biases difficult to identify through introspection or self-report. Narrative materials such as Cognitive Task Analysis (CTA) interviews therefore provide a challenging but ecologically relevant test case for exploring AI-supported bias detection.
 
 ## Aim of the Study
 
-The present project developed and explored a proof-of-concept for a literature-grounded RAG system aimed at detecting cognitive biases in professional decision contexts. The system has two application goals for joint cognitive systems: (a) a *conservative strategy* in which identified biases are prevented from entering AI training data, and (b) an *active mitigation strategy* in which the system is specifically trained to counteract biases in joint human--AI operation. The project investigated whether an AI system anchored in a curated body of cognitive bias literature could identify bias patterns in fictional professional scenarios and narrative interview material across multiple professional domains.
+For the design og cognitive joint systems, two goals can be derived from Bounded Rationality, (a) a *preventive strategy* in which identified biases are prevented from entering AI training data, and (b) an *progressive strategy* in which the system is specifically trained to counteract biases in joint human--AI operation. The present project developed and explored a proof-of-concept for a literature-grounded RAG system aimed at detecting cognitive biases in user requirement artifacts. The project investigated whether an AI system anchored in a curated body of cognitive bias literature could identify bias patterns in fictional professional scenarios and narrative interview material across multiple professional domains.
 
 # Method
-
-## Overall Design
 
 This project followed an exploratory, design-oriented proof-of-concept approach structured into five successive phases: (1) literature exploration and corpus scoping, (2) automated corpus construction, (3) RAG-based testing with structured professional scenarios, (4) evaluation framework development using simulated CTA interviews, and (5) implementation of a local RAG system to address technical constraints.
 
@@ -78,7 +81,6 @@ The first phase systematically identified literature on cognitive biases, debias
 ## Scenario Testing with NotebookLM (Phase 3)
 
 To conduct an initial feasibility test, fictional professional scenarios were constructed using ChatGPT across five domains: emergency medicine (chest-pain triage), aviation (flight decision-making), finance (loan approval), cybersecurity (incident response), and engineering/project management. Each scenario embedded a predefined set of cognitive biases reflecting decision conditions such as time pressure, incomplete information, workload, and social influence. In total, 21 biases were intentionally embedded across the five scenarios.
-
 The literature corpus was loaded into Google NotebookLM---which supports up to 50 simultaneously embedded PDF sources---and the system was prompted to identify cognitive biases, explain their contextual relevance, and suggest debiasing actions. Detected biases were compared with the embedded reference set; ChatGPT assisted in summarizing the overlap, and results were manually reviewed for accuracy.
 
 ## CTA Interview Materials (Phase 4)
@@ -127,13 +129,11 @@ The professional scenarios used in testing were fictional and relatively structu
 
 ## Future Directions
 
-Future work should (1) develop a focused, curated corpus of key publications on cognitive biases and decision-making---potentially using a systematic review and bias taxonomy as the organizing framework---to improve retrieval precision; (2) test the system using more capable local RAG configurations on higher-performance hardware, enabling analysis of complete CTA interview transcripts without fragmentation; (3) conduct a systematic comparison between human expert bias detection and RAG-based detection using the evaluation framework developed in Phase 4; and (4) explore integration of RAG-based bias detection into professional training environments as a reflective decision-support tool. Longer-term, future systems could extend beyond language-based cues by incorporating physiological data to predict the likelihood that a professional is operating under heuristic-driven cognition.
+Future work should (1) develop a focused, curated corpus of key publications on cognitive biases and decision-making to improve retrieval precision; (2) test the system using more capable local RAG configurations on higher-performance hardware, enabling analysis of complete CTA interview transcripts without fragmentation; (3) conduct a systematic comparison between human expert bias detection and RAG-based detection using the evaluation framework developed in Phase 4; and (4) explore integration of RAG-based bias detection into professional training environments as a reflective decision-support tool.
 
 # Conclusion
 
-This study presented a proof-of-concept demonstrating that a literature-grounded RAG system can detect cognitive biases in professional decision scenarios and link them to contextual decision factors. Across five professional domains, the system identified 20 of 21 intentionally embedded biases and generated contextualized debiasing suggestions. Testing with simulated CTA interview narratives revealed important technical constraints---particularly prompt-length limits and hardware-dependent model capacity---that currently bound the approach's applicability to more complex qualitative data.
-
-The findings support two application strategies for joint cognitive systems: RAG-based bias detection can serve as a filter to prevent biased reasoning patterns from entering AI training corpora, or as a component of an active mitigation architecture trained to counteract biases in human--AI collaboration. Realizing either strategy at scale requires advances in corpus curation, local model capacity, and rigorous human--AI comparison studies. Nevertheless, the current results establish retrieval-augmented generation as a viable and theoretically grounded starting point for AI-supported bias awareness in complex professional environments.
+In an ideal joint cognitive system the partners complement each other rather than mirror or in the worst case amplify each others biases. Being able to identify potential biases early in the process is a critical step towards this goal. The present project demonstrates that detecting cognitive biases in requirements narratives is possible, making use of the extensive literature. It seems possible to build a RAG-based requirements analysis tools that can bring this expert knowledge to the system analysts in the field.
 
 # References {.unnumbered}
 

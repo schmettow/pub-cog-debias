@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Martin Schmettow">
+<meta name="author" content="Joel Surall">
+<meta name="author" content="Valeria Resendez Gomez">
+<meta name="dcterms.date" content="2026-01-01">
+<meta name="keywords" content="cognitive bias, retrieval-augmented generation, decision support, human–AI interaction, Cognitive Task Analysis, debiasing">
+
+<title>Early Identification of Human Cognitive Biases in the Design of Joint Cognitive Systems: A Feasibility Study</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="CDB_1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="CDB_1_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="CDB_1_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="CDB_1_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="CDB_1_files/libs/quarto-html/popper.min.js"></script>
+<script src="CDB_1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="CDB_1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="CDB_1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="CDB_1_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="CDB_1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="CDB_1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="CDB_1_files/libs/bootstrap/bootstrap-41d88303be882ef0a6c3a7ae4fdd2823.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
+  <ul class="collapse">
+  <li><a href="#cognitive-bias-in-professional-decision-making" id="toc-cognitive-bias-in-professional-decision-making" class="nav-link" data-scroll-target="#cognitive-bias-in-professional-decision-making"><span class="header-section-number">1.1</span> Cognitive Bias in Professional Decision-Making</a></li>
+  <li><a href="#ai-supported-decision-making-and-bias-amplification" id="toc-ai-supported-decision-making-and-bias-amplification" class="nav-link" data-scroll-target="#ai-supported-decision-making-and-bias-amplification"><span class="header-section-number">1.2</span> AI-Supported Decision-Making and Bias Amplification</a></li>
+  <li><a href="#retrieval-augmented-generation-for-bias-detection" id="toc-retrieval-augmented-generation-for-bias-detection" class="nav-link" data-scroll-target="#retrieval-augmented-generation-for-bias-detection"><span class="header-section-number">1.3</span> Retrieval-Augmented Generation for Bias Detection</a></li>
+  <li><a href="#aim-of-the-study" id="toc-aim-of-the-study" class="nav-link" data-scroll-target="#aim-of-the-study"><span class="header-section-number">1.4</span> Aim of the Study</a></li>
+  </ul></li>
+  <li><a href="#method" id="toc-method" class="nav-link" data-scroll-target="#method"><span class="header-section-number">2</span> Method</a>
+  <ul class="collapse">
+  <li><a href="#literature-corpus-phases-12" id="toc-literature-corpus-phases-12" class="nav-link" data-scroll-target="#literature-corpus-phases-12"><span class="header-section-number">2.1</span> Literature Corpus (Phases 1–2)</a></li>
+  <li><a href="#scenario-testing-with-notebooklm-phase-3" id="toc-scenario-testing-with-notebooklm-phase-3" class="nav-link" data-scroll-target="#scenario-testing-with-notebooklm-phase-3"><span class="header-section-number">2.2</span> Scenario Testing with NotebookLM (Phase 3)</a></li>
+  <li><a href="#cta-interview-materials-phase-4" id="toc-cta-interview-materials-phase-4" class="nav-link" data-scroll-target="#cta-interview-materials-phase-4"><span class="header-section-number">2.3</span> CTA Interview Materials (Phase 4)</a></li>
+  <li><a href="#local-rag-implementation-phase-5" id="toc-local-rag-implementation-phase-5" class="nav-link" data-scroll-target="#local-rag-implementation-phase-5"><span class="header-section-number">2.4</span> Local RAG Implementation (Phase 5)</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">3</span> Results</a>
+  <ul class="collapse">
+  <li><a href="#structured-scenario-testing" id="toc-structured-scenario-testing" class="nav-link" data-scroll-target="#structured-scenario-testing"><span class="header-section-number">3.1</span> Structured Scenario Testing</a></li>
+  <li><a href="#cta-interview-framework" id="toc-cta-interview-framework" class="nav-link" data-scroll-target="#cta-interview-framework"><span class="header-section-number">3.2</span> CTA Interview Framework</a></li>
+  <li><a href="#local-rag-system" id="toc-local-rag-system" class="nav-link" data-scroll-target="#local-rag-system"><span class="header-section-number">3.3</span> Local RAG System</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">4</span> Discussion</a>
+  <ul class="collapse">
+  <li><a href="#feasibility-and-scope" id="toc-feasibility-and-scope" class="nav-link" data-scroll-target="#feasibility-and-scope"><span class="header-section-number">4.1</span> Feasibility and Scope</a></li>
+  <li><a href="#technical-constraints" id="toc-technical-constraints" class="nav-link" data-scroll-target="#technical-constraints"><span class="header-section-number">4.2</span> Technical Constraints</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">4.3</span> Limitations</a></li>
+  <li><a href="#future-directions" id="toc-future-directions" class="nav-link" data-scroll-target="#future-directions"><span class="header-section-number">4.4</span> Future Directions</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">5</span> Conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Early Identification of Human Cognitive Biases in the Design of Joint Cognitive Systems: A Feasibility Study</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Martin Schmettow <a href="mailto:m.schmettow@utwente.nl" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/true" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Twente
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Joel Surall <a href="mailto:j.surall@student.utwente.nl" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/true" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Twente
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Valeria Resendez Gomez <a href="mailto:v.d.c.resendez@utwente.nl" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/true" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Twente
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 1, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>Cognitive biases systematically impair professional decision-making, and AI systems trained on human-generated data risk inheriting or amplifying these distortions. This paper presents a proof-of-concept for a literature-grounded retrieval-augmented generation (RAG) system aimed at detecting cognitive biases in simulated narratives, with dual application goals: preventing biased patterns from entering AI training data and enabling targeted bias mitigation in joint human–AI operation. Across five professional domains—emergency medicine, aviation, finance, cybersecurity, and engineering—the system identified 20 of 21 intentionally embedded biases in structured scenarios. Testing with simulated Cognitive Task Analysis (CTA) interview narratives revealed key technical requirements for a RAG-based expert system, including prompt-length limits and model capacity. Findings indicate that retrieval-grounded approaches are a promising starting point for AI-supported bias awareness in complex professional contexts, contingent on curated knowledge bases and capable language models.</p>
+  </div>
+</div>
+
+<div>
+  <div class="keywords">
+    <div class="block-title">Keywords</div>
+    <p>cognitive bias, retrieval-augmented generation, decision support, human–AI interaction, Cognitive Task Analysis, debiasing</p>
+  </div>
+</div>
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<section id="cognitive-bias-in-professional-decision-making" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="cognitive-bias-in-professional-decision-making"><span class="header-section-number">1.1</span> Cognitive Bias in Professional Decision-Making</h2>
+<p>Professionals in domains such as healthcare, aviation, and management frequently make critical decisions under conditions of time pressure, uncertainty, and high workload <span class="citation" data-cites="berthet2022 egoda2025 korentsides2026">[<a href="#ref-berthet2022" role="doc-biblioref">5</a>, <a href="#ref-egoda2025" role="doc-biblioref">9</a>, <a href="#ref-korentsides2026" role="doc-biblioref">12</a>]</span>. In such environments, decision-making is often supported by heuristics—intuitive mental shortcuts—that allow individuals to process information rapidly and efficiently <span class="citation" data-cites="agarwal2023 korteling2022">[<a href="#ref-agarwal2023" role="doc-biblioref">1</a>, <a href="#ref-korteling2022" role="doc-biblioref">14</a>]</span>. Although heuristics help manage limited cognitive resources, they can also lead to systematic deviations from rational standards of reasoning and probability. These deviations are commonly described as cognitive biases <span class="citation" data-cites="knipper2025 korteling2022">[<a href="#ref-knipper2025" role="doc-biblioref">11</a>, <a href="#ref-korteling2022" role="doc-biblioref">14</a>]</span>.</p>
+<p>Cognitive biases have been linked to errors in a wide range of professional contexts. In surgical environments they have been implicated in a substantial proportion of adverse clinical events <span class="citation" data-cites="agarwal2023">[<a href="#ref-agarwal2023" role="doc-biblioref">1</a>]</span>. In emergency departments, biases such as anchoring and availability can influence triage decisions and contribute to diagnostic errors <span class="citation" data-cites="bhuvaneswari2025 egoda2025">[<a href="#ref-bhuvaneswari2025" role="doc-biblioref">6</a>, <a href="#ref-egoda2025" role="doc-biblioref">9</a>]</span>. Similarly, in strategic and managerial decision-making, confirmation bias and overconfidence can distort risk assessment and contribute to flawed strategic choices <span class="citation" data-cites="rau2025 theodorakopoulos2025">[<a href="#ref-rau2025" role="doc-biblioref">17</a>, <a href="#ref-theodorakopoulos2025" role="doc-biblioref">20</a>]</span>. These findings suggest that cognitive biases represent a persistent challenge for reliable decision-making in complex professional environments.</p>
+</section>
+<section id="ai-supported-decision-making-and-bias-amplification" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="ai-supported-decision-making-and-bias-amplification"><span class="header-section-number">1.2</span> AI-Supported Decision-Making and Bias Amplification</h2>
+<p>At the same time, artificial intelligence (AI) and automated decision-support systems are increasingly integrated into professional workflows. While such systems are often expected to improve decision quality, they do not automatically eliminate cognitive biases. AI systems frequently inherit patterns present in human-generated data and can reproduce or amplify biased reasoning structures <span class="citation" data-cites="aich2025 vicente2023">[<a href="#ref-aich2025" role="doc-biblioref">2</a>, <a href="#ref-vicente2023" role="doc-biblioref">21</a>]</span>. In addition, the presence of automated recommendations can influence human judgment through <em>automation bias</em>—the tendency to over-rely on algorithmic outputs even when contradictory information is available <span class="citation" data-cites="romeo2026">[<a href="#ref-romeo2026" role="doc-biblioref">18</a>]</span>. Under conditions of time pressure and cognitive load, professionals may therefore defer uncritically to algorithmic suggestions, creating situations in which human and machine biases interact rather than cancel each other out <span class="citation" data-cites="lim2025 mahajan2025">[<a href="#ref-lim2025" role="doc-biblioref">15</a>, <a href="#ref-mahajan2025" role="doc-biblioref">16</a>]</span>.</p>
+<p>In response to these challenges, recent research has explored debiasing strategies aimed at promoting more reflective and analytically engaged decision-making. These approaches include metacognitive training, cognitive forcing functions, and system designs that introduce deliberate friction to encourage users to reconsider initial judgments <span class="citation" data-cites="baruh2026 cabitza2024">[<a href="#ref-baruh2026" role="doc-biblioref">4</a>, <a href="#ref-cabitza2024" role="doc-biblioref">7</a>]</span>. Other proposals involve collaborative AI architectures, such as multi-agent systems or adversarial prompting approaches, which challenge preliminary conclusions and encourage the consideration of alternative explanations <span class="citation" data-cites="cabitza2024 ke2024">[<a href="#ref-cabitza2024" role="doc-biblioref">7</a>, <a href="#ref-ke2024" role="doc-biblioref">10</a>]</span>. Across these approaches, a common principle is that decision quality can improve when individuals are supported in questioning initial interpretations and considering alternative explanations.</p>
+</section>
+<section id="retrieval-augmented-generation-for-bias-detection" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="retrieval-augmented-generation-for-bias-detection"><span class="header-section-number">1.3</span> Retrieval-Augmented Generation for Bias Detection</h2>
+<p>The idea of cognitive biases originated in the so-called Bounded Rationality paradigm, initiated by Kahnemann &amp; Tversky and their colleagues, which made an end to the assumptions that human behaviour can be described as rational decision-making. The theme of Bounded Rationality has been very productive in the past and present, which makes it challenging to absorb for human experts. At the same time the immense body of literature could serve very well to create an LLM-based conversational agent using retrieval-augmented generation (RAG). In contrast to unguided language model generation, RAG systems combine generative models with external knowledge retrieval, allowing responses to be grounded in a curated body of literature or domain-specific knowledge <span class="citation" data-cites="albashrawi2025 soroush2025">[<a href="#ref-albashrawi2025" role="doc-biblioref">3</a>, <a href="#ref-soroush2025" role="doc-biblioref">19</a>]</span>. This grounding improves transparency and traceability by linking generated explanations to identifiable sources. For topics such as cognitive bias detection, this architecture is particularly relevant because meaningful support requires connecting narrative descriptions of decision processes with established theoretical concepts and evidence-based debiasing strategies.</p>
+<p>Detecting biases in realistic professional narratives, however, remains difficult. Cognitive biases are rarely expressed explicitly; instead, they are often reflected indirectly in interpretation patterns, selective framing of information, or reliance on memorable narratives rather than statistical evidence <span class="citation" data-cites="echterhoff2024 korteling2023">[<a href="#ref-echterhoff2024" role="doc-biblioref">8</a>, <a href="#ref-korteling2023" role="doc-biblioref">13</a>]</span>. These characteristics make subtle biases difficult to identify through introspection or self-report. Narrative materials such as Cognitive Task Analysis (CTA) interviews therefore provide a challenging but ecologically relevant test case for exploring AI-supported bias detection.</p>
+</section>
+<section id="aim-of-the-study" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="aim-of-the-study"><span class="header-section-number">1.4</span> Aim of the Study</h2>
+<p>For the design og cognitive joint systems, two goals can be derived from Bounded Rationality, (a) a <em>preventive strategy</em> in which identified biases are prevented from entering AI training data, and (b) an <em>progressive strategy</em> in which the system is specifically trained to counteract biases in joint human–AI operation. The present project developed and explored a proof-of-concept for a literature-grounded RAG system aimed at detecting cognitive biases in user requirement artifacts. The project investigated whether an AI system anchored in a curated body of cognitive bias literature could identify bias patterns in fictional professional scenarios and narrative interview material across multiple professional domains.</p>
+</section>
+</section>
+<section id="method" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Method</h1>
+<p>This project followed an exploratory, design-oriented proof-of-concept approach structured into five successive phases: (1) literature exploration and corpus scoping, (2) automated corpus construction, (3) RAG-based testing with structured professional scenarios, (4) evaluation framework development using simulated CTA interviews, and (5) implementation of a local RAG system to address technical constraints.</p>
+<section id="literature-corpus-phases-12" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="literature-corpus-phases-12"><span class="header-section-number">2.1</span> Literature Corpus (Phases 1–2)</h2>
+<p>The first phase systematically identified literature on cognitive biases, debiasing strategies, human–AI interaction, and large language models. Searches covered PsycINFO, PubMed/MEDLINE, Web of Science, Scopus, ACM Digital Library, IEEE Xplore, and Google Scholar. Search string development was supported iteratively using ChatGPT. In the second phase, a Python-based Scopus web scraper was used to extract article metadata, producing an initial corpus of more than 250 research papers after combined manual and automated retrieval.</p>
+</section>
+<section id="scenario-testing-with-notebooklm-phase-3" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="scenario-testing-with-notebooklm-phase-3"><span class="header-section-number">2.2</span> Scenario Testing with NotebookLM (Phase 3)</h2>
+<p>To conduct an initial feasibility test, fictional professional scenarios were constructed using ChatGPT across five domains: emergency medicine (chest-pain triage), aviation (flight decision-making), finance (loan approval), cybersecurity (incident response), and engineering/project management. Each scenario embedded a predefined set of cognitive biases reflecting decision conditions such as time pressure, incomplete information, workload, and social influence. In total, 21 biases were intentionally embedded across the five scenarios. The literature corpus was loaded into Google NotebookLM—which supports up to 50 simultaneously embedded PDF sources—and the system was prompted to identify cognitive biases, explain their contextual relevance, and suggest debiasing actions. Detected biases were compared with the embedded reference set; ChatGPT assisted in summarizing the overlap, and results were manually reviewed for accuracy.</p>
+</section>
+<section id="cta-interview-materials-phase-4" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="cta-interview-materials-phase-4"><span class="header-section-number">2.3</span> CTA Interview Materials (Phase 4)</h2>
+<p>To increase task realism, two simulated CTA interview narratives were generated using ChatGPT, with instructions to embed one to three biases per narrative without making them explicitly identifiable. The first interview was shorter and focused on operational decision-making; the second was longer and included unrelated contextual content (stress management, hobbies) to simulate realistic interview noise. An annotated reference solution—mapping each bias to specific transcript passages and explanations—was created to serve as a benchmark for future human–RAG comparison.</p>
+</section>
+<section id="local-rag-implementation-phase-5" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="local-rag-implementation-phase-5"><span class="header-section-number">2.4</span> Local RAG Implementation (Phase 5)</h2>
+<p>Because NotebookLM imposes a prompt input limit of approximately 250 words—preventing analysis of full interview transcripts—a local RAG system was implemented using OpenNotebookLM (an open-source alternative) running via the Ollama inference framework. Setup required manual troubleshooting beyond the available documentation. Due to hardware constraints (limited VRAM and RAM), only a lower-capacity language model could be run locally. The system was evaluated for its ability to detect biases in the embedded literature-grounded setting.</p>
+</section>
+</section>
+<section id="results" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
+<section id="structured-scenario-testing" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="structured-scenario-testing"><span class="header-section-number">3.1</span> Structured Scenario Testing</h2>
+<p>Across the five professional scenarios, NotebookLM identified 20 of the 21 intentionally embedded biases (95.2%). The single missed bias was <em>base-rate neglect</em> in the emergency department scenario—a probabilistic reasoning bias not explicitly cued in the narrative. In the remaining four scenarios, all embedded biases were detected. In several cases the system applied slightly different labels than the predefined categories, but the underlying concepts corresponded closely to the intended biases.</p>
+<p>Beyond identification, the system consistently linked detected biases to contextual triggers within the scenarios, including time pressure, reliance on automated systems, authority influence, prior experiences, and organizational incentives. Suggested debiasing strategies focused on slowing decision processes, introducing structured review moments, applying checklists or cognitive forcing techniques, and encouraging consideration of alternative interpretations. Detection was strongest for explicitly cued biases such as anchoring, confirmation bias, automation bias, authority bias, and escalation of commitment.</p>
+</section>
+<section id="cta-interview-framework" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="cta-interview-framework"><span class="header-section-number">3.2</span> CTA Interview Framework</h2>
+<p>Phase 4 produced two simulated CTA interview narratives embedding a range of subtle biases—including confirmation bias, status quo/conservatism bias, optimism bias, availability bias, overconfidence, and anchoring—alongside a structured evaluation framework. This framework comprised a participant reporting form, a multi-evaluator comparison checklist, and an annotated reference solution.</p>
+<p>However, the planned comparison between RAG-based and human expert detection could not be executed. The prompt-length limit of NotebookLM (approximately 250 words) prevented the full interview transcripts from being submitted as input. Fragmenting the interviews would have removed contextual cues necessary for interpreting the embedded biases, so this strategy was not pursued.</p>
+</section>
+<section id="local-rag-system" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="local-rag-system"><span class="header-section-number">3.3</span> Local RAG System</h2>
+<p>The local OpenNotebookLM system was successfully installed and could process document sources and generate retrieval-grounded responses. Initial tests confirmed that the system could identify cognitive biases in provided material. However, detection quality was lower than in the NotebookLM experiments: some biases were described using broader conceptual language rather than precise bias labels, and some embedded biases were missed entirely. These limitations are attributed primarily to the lower reasoning capacity of the model required by the available hardware.</p>
+<p>The experiments also highlighted an important corpus-design consideration: retrieval quality did not improve with larger document collections. A large heterogeneous embedding space can reduce retrieval precision, suggesting that a smaller, carefully curated set of sources is preferable to a broad but loosely structured corpus.</p>
+</section>
+</section>
+<section id="discussion" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Discussion</h1>
+<section id="feasibility-and-scope" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="feasibility-and-scope"><span class="header-section-number">4.1</span> Feasibility and Scope</h2>
+<p>The results demonstrate that a literature-grounded RAG system can operationalize cognitive bias detection when narrative cues are sufficiently salient. The near-complete detection rate in structured scenarios (20/21 biases) supports the feasibility of the approach for professional decision contexts. The single missed bias—base-rate neglect—was consistent with the broader literature on probabilistic reasoning biases, which are harder to detect because they depend on implicit statistical reasoning rather than explicit narrative cues <span class="citation" data-cites="knipper2025">[<a href="#ref-knipper2025" role="doc-biblioref">11</a>]</span>.</p>
+<p>The ability to link detected biases to contextual decision factors and to generate plausible debiasing suggestions illustrates the potential of RAG systems to translate theoretical constructs from cognitive psychology into interpretive tools for professional decision situations. These properties are relevant to both application strategies motivating the project: preventing biased patterns from contaminating AI training corpora and supporting active debiasing in joint human–AI operation.</p>
+</section>
+<section id="technical-constraints" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="technical-constraints"><span class="header-section-number">4.2</span> Technical Constraints</h2>
+<p>Several practical constraints limit the current scope of the system. The prompt-length limitation of cloud-based RAG interfaces prevented the analysis of full CTA interview transcripts, highlighting a critical gap between the complexity of realistic qualitative data and the technical affordances of current tools. The local RAG implementation partially addressed this gap but introduced trade-offs related to hardware capacity and model performance. Taken together, these findings suggest that the effectiveness of literature-grounded RAG systems depends on three interacting factors: the reasoning capabilities of the underlying language model, system-level constraints such as context-length limits, and the quality and structure of the embedded knowledge corpus.</p>
+</section>
+<section id="limitations" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="limitations"><span class="header-section-number">4.3</span> Limitations</h2>
+<p>The professional scenarios used in testing were fictional and relatively structured, limiting ecological validity. The simulated CTA interviews were not fully evaluated due to the prompt-length constraint. The local RAG setup underestimates achievable performance because hardware limitations required a low-capacity model. Finally, the literature corpus was only partially curated, and the subset available for embedding may not have been optimally composed for targeted retrieval.</p>
+</section>
+<section id="future-directions" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="future-directions"><span class="header-section-number">4.4</span> Future Directions</h2>
+<p>Future work should (1) develop a focused, curated corpus of key publications on cognitive biases and decision-making to improve retrieval precision; (2) test the system using more capable local RAG configurations on higher-performance hardware, enabling analysis of complete CTA interview transcripts without fragmentation; (3) conduct a systematic comparison between human expert bias detection and RAG-based detection using the evaluation framework developed in Phase 4; and (4) explore integration of RAG-based bias detection into professional training environments as a reflective decision-support tool.</p>
+</section>
+</section>
+<section id="conclusion" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Conclusion</h1>
+<p>In an ideal joint cognitive system the partners complement each other rather than mirror or in the worst case amplify each others biases. Being able to identify potential biases early in the process is a critical step towards this goal. The present project demonstrates that detecting cognitive biases in requirements narratives is possible, making use of the extensive literature. It seems possible to build a RAG-based requirements analysis tools that can bring this expert knowledge to the system analysts in the field.</p>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-agarwal2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">Agarwal, S. et al. 2023. Cognitive biases and heuristics in surgical settings: <span>A</span> systematic review. <em>British Journal of Surgery</em>. 110, Supplement_7 (2023), znad258.011. DOI:https://doi.org/<a href="https://doi.org/10.1093/bjs/znad258.011">10.1093/bjs/znad258.011</a>.</div>
+</div>
+<div id="ref-aich2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">Aich, P. 2025. <a href="https://doi.org/10.1145/3765766.3765887">Cognitive bias in <span>AI</span> recommendations: <span>Understanding</span> and mitigating human-<span>AI</span> decision-making errors</a>. <em>Proceedings of the 13th international conference on human-agent interaction</em> (2025), 583–584.</div>
+</div>
+<div id="ref-albashrawi2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">Albashrawi, M. 2025. Generative <span>AI</span> for decision-making: <span>A</span> multidisciplinary perspective. <em>Journal of Innovation &amp; Knowledge</em>. 10, 4 (2025), 100751. DOI:https://doi.org/<a href="https://doi.org/10.1016/j.jik.2025.100751">10.1016/j.jik.2025.100751</a>.</div>
+</div>
+<div id="ref-baruh2026" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">Baruh, L. et al. 2026. Mitigating cognitive biases in higher education contexts through a brief video-based intervention: <span>A</span> randomized controlled trial. <em>Computers &amp; Education</em>. 245, (2026), 105535. DOI:https://doi.org/<a href="https://doi.org/10.1016/j.compedu.2025.105535">10.1016/j.compedu.2025.105535</a>.</div>
+</div>
+<div id="ref-berthet2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">Berthet, V. 2022. The impact of cognitive biases on professionals’ decision-making: <span>A</span> review of four occupational areas. <em>Frontiers in Psychology</em>. 12, (2022), 802439. DOI:https://doi.org/<a href="https://doi.org/10.3389/fpsyg.2021.802439">10.3389/fpsyg.2021.802439</a>.</div>
+</div>
+<div id="ref-bhuvaneswari2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">Bhuvaneswari, E. et al. 2025. A human-centered hybrid <span>AI</span> framework for optimizing emergency triage in resource-constrained settings. <em>Intelligence-Based Medicine</em>. 12, (2025), 100311. DOI:https://doi.org/<a href="https://doi.org/10.1016/j.ibmed.2025.100311">10.1016/j.ibmed.2025.100311</a>.</div>
+</div>
+<div id="ref-cabitza2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">Cabitza, F. et al. 2024. Never tell me the odds: <span>Investigating</span> pro-hoc explanations in medical decision making. <em>Artificial Intelligence in Medicine</em>. 150, (2024), 102819. DOI:https://doi.org/<a href="https://doi.org/10.1016/j.artmed.2024.102819">10.1016/j.artmed.2024.102819</a>.</div>
+</div>
+<div id="ref-echterhoff2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">Echterhoff, J.M. et al. 2024. <a href="https://doi.org/10.18653/v1/2024.findings-emnlp.739">Cognitive bias in decision-making with <span>LLMs</span></a>. <em>Findings of the association for computational linguistics: <span>EMNLP</span> 2024</em> (2024), 12640–12653.</div>
+</div>
+<div id="ref-egoda2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">Egoda Kapuralalage, T.N. et al. 2025. Clinical decision-making: <span>Cognitive</span> biases and heuristics in triage decisions in the emergency department. <em>The American Journal of Emergency Medicine</em>. 92, (2025), 60–67. DOI:https://doi.org/<a href="https://doi.org/10.1016/j.ajem.2025.02.043">10.1016/j.ajem.2025.02.043</a>.</div>
+</div>
+<div id="ref-ke2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">Ke, Y. et al. 2024. Mitigating cognitive biases in clinical decision-making through multi-agent conversations using large language models: <span>Simulation</span> study. <em>Journal of Medical Internet Research</em>. 26, (2024), e59439. DOI:https://doi.org/<a href="https://doi.org/10.2196/59439">10.2196/59439</a>.</div>
+</div>
+<div id="ref-knipper2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">Knipper, R.A. et al. 2025. <a href="https://doi.org/10.48550/arxiv.2509.22856">The bias is in the details: <span>An</span> assessment of cognitive bias in <span>LLMs</span></a>.</div>
+</div>
+<div id="ref-korentsides2026" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">Korentsides, J. et al. 2026. The use of artificial intelligence (<span>AI</span>) in the flight deck: <span>Enhancing</span> human-<span>AI</span> teamwork in aviation. <em>Journal of the Air Transport Research Society</em>. 6, (2026), 100099. DOI:https://doi.org/<a href="https://doi.org/10.1016/j.jatrs.2025.100099">10.1016/j.jatrs.2025.100099</a>.</div>
+</div>
+<div id="ref-korteling2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">Korteling, J.E. et al. 2023. Cognitive bias and how to improve sustainable decision making. <em>Frontiers in Psychology</em>. 14, (2023), 1129835. DOI:https://doi.org/<a href="https://doi.org/10.3389/fpsyg.2023.1129835">10.3389/fpsyg.2023.1129835</a>.</div>
+</div>
+<div id="ref-korteling2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">Korteling, J.E. and Toet, A. 2022. <a href="https://doi.org/10.1016/B978-0-12-809324-5.24105-9">Cognitive biases</a>. <em>Encyclopedia of behavioral neuroscience</em>. Elsevier. 610–619.</div>
+</div>
+<div id="ref-lim2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">Lim, C. 2025. <a href="https://doi.org/10.48550/arXiv.2504.16770"><span>DeBiasMe</span>: <span class="nocase">De-biasing</span> human-<span>AI</span> interactions with metacognitive <span>AIED</span> interventions</a>.</div>
+</div>
+<div id="ref-mahajan2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">Mahajan, A. et al. 2025. Cognitive bias in clinical large language models. <em>npj Digital Medicine</em>. 8, 1 (2025), 428. DOI:https://doi.org/<a href="https://doi.org/10.1038/s41746-025-01790-0">10.1038/s41746-025-01790-0</a>.</div>
+</div>
+<div id="ref-rau2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">Rau, D. and Bromiley, P. 2025. A review of cognitive biases in strategic decision making. <em>Long Range Planning</em>. 58, 3 (2025), 102529. DOI:https://doi.org/<a href="https://doi.org/10.1016/j.lrp.2025.102529">10.1016/j.lrp.2025.102529</a>.</div>
+</div>
+<div id="ref-romeo2026" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">Romeo, G. and Conti, D. 2026. Exploring automation bias in human–<span>AI</span> collaboration: <span>A</span> review and implications for explainable <span>AI</span>. <em>AI &amp; Society</em>. 41, 1 (2026), 259–278. DOI:https://doi.org/<a href="https://doi.org/10.1007/s00146-025-02422-7">10.1007/s00146-025-02422-7</a>.</div>
+</div>
+<div id="ref-soroush2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[19] </div><div class="csl-right-inline">Soroush, A. et al. 2025. Generative artificial intelligence in clinical medicine and impact on gastroenterology. <em>Gastroenterology</em>. 169, 3 (2025), 502–517.e1. DOI:https://doi.org/<a href="https://doi.org/10.1053/j.gastro.2025.03.038">10.1053/j.gastro.2025.03.038</a>.</div>
+</div>
+<div id="ref-theodorakopoulos2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[20] </div><div class="csl-right-inline">Theodorakopoulos, L. et al. 2025. Cognitive bias mitigation in executive decision-making: <span>A</span> data-driven approach integrating big data analytics, <span>AI</span>, and explainable systems. <em>Electronics</em>. 14, 19 (2025), 3930. DOI:https://doi.org/<a href="https://doi.org/10.3390/electronics14193930">10.3390/electronics14193930</a>.</div>
+</div>
+<div id="ref-vicente2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[21] </div><div class="csl-right-inline">Vicente, L. and Matute, H. 2023. Humans inherit artificial intelligence biases. <em>Scientific Reports</em>. 13, 1 (2023), 15737. DOI:https://doi.org/<a href="https://doi.org/10.1038/s41598-023-42384-8">10.1038/s41598-023-42384-8</a>.</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
