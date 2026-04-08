@@ -14,9 +14,9 @@ author:
     email: v.d.c.resendez@utwente.nl
     orcid: ""
     
-date: "2026"
+#date: "2026"
 abstract: |
-  Cognitive biases systematically impair professional decision-making, and AI systems trained on human-generated data risk inheriting or amplifying these distortions. This paper presents a proof-of-concept for a literature-grounded retrieval-augmented generation (RAG) system aimed at detecting cognitive biases in simulated narratives, with dual application goals: preventing biased patterns from entering AI training data and enabling targeted bias mitigation in joint human--AI operation. Across five professional domains---emergency medicine, aviation, finance, cybersecurity, and engineering---the system identified 20 of 21 intentionally embedded biases in structured scenarios. Testing with simulated Cognitive Task Analysis (CTA) interview narratives revealed key technical requirements for a RAG-based expert system, including prompt-length limits and model capacity. Findings indicate that retrieval-grounded approaches are a promising starting point for AI-supported bias awareness in complex professional contexts, contingent on curated knowledge bases and capable language models.
+  Cognitive biases systematically impair professional decision-making, and AI systems trained on human-generated data risk inheriting or amplifying these distortions. This paper presents a proof-of-concept for a literature-grounded retrieval-augmented generation (RAG) system aimed at detecting cognitive biases in narratives collected during requirements elicitation, with dual application goals: preventing biased patterns from entering AI training data and enabling targeted bias mitigation in joint human--AI operation. Across five professional domains---emergency medicine, aviation, finance, cybersecurity, and engineering---the system identified 20 of 21 intentionally embedded biases in structured scenarios. Testing with simulated Cognitive Task Analysis (CTA) interview narratives revealed key technical requirements for a RAG-based expert system, including prompt-length limits and model capacity. Findings indicate that retrieval-grounded approaches are a promising starting point for AI-supported bias awareness in complex professional contexts, contingent on curated knowledge bases and capable language models.
 keywords:
   - cognitive bias
   - retrieval-augmented generation
@@ -25,21 +25,22 @@ keywords:
   - Cognitive Task Analysis
   - debiasing
 bibliography: references.bib
-csl: acm-sig-proceedings.csl   # swap for your preferred ACM CSL
+#csl: acm-sig-proceedings.csl   # swap for your preferred ACM CSL
+#csl: acmart
 format:
   # pdf:
   #   documentclass: acmart
   #   classoption:
   #     - sigconf
   #     - review
-  #   keep-tex: false
+  #   keep-tex: true
   #   number-sections: true
   #   colorlinks: true
-  #   geometry:
-  #     - top=1in
-  #     - bottom=1.25in
-  #     - left=0.75in
-  #     - right=0.75in
+  #   #geometry:
+  #   #  - top=1in
+  #   #  - bottom=1.25in
+  #   #  - left=0.75in
+  #   #  - right=0.75in
   html:
     toc: true
     number-sections: true
@@ -62,7 +63,7 @@ In response to these challenges, recent research has explored debiasing strategi
 
 ## Retrieval-Augmented Generation for Bias Detection
 
-The idea of cognitive biases originated in the so-called Bounded Rationality paradigm, initiated  by Kahnemann & Tversky and their colleagues, which made an end to the assumptions that human behaviour can be described as rational decision-making. The theme of Bounded Rationality has been very productive in the past and present, which makes it challenging to absorb for human experts. At the same time the immense body of literature could serve very well to create an LLM-based conversational agent using retrieval-augmented generation (RAG). In contrast to unguided language model generation, RAG systems combine generative models with external knowledge retrieval, allowing responses to be grounded in a curated body of literature or domain-specific knowledge [@albashrawi2025; @soroush2025]. This grounding improves transparency and traceability by linking generated explanations to identifiable sources. For topics such as cognitive bias detection, this architecture is particularly relevant because meaningful support requires connecting narrative descriptions of decision processes with established theoretical concepts and evidence-based debiasing strategies.
+Research on cognitive biases is rooted in the concept of bounded rationality, first introduced by Herbert Simon. The heuristics-and-biases research program developed by Kahneman and Tversky later expanded this work by showing how human judgment systematically departs from ideal rational models. The theme of Bounded Rationality has been very productive in the past and present, which makes it challenging to absorb into a user requirements analysis method. At the same time the immense body of literature could serve very well to create an LLM-based conversational agent using retrieval-augmented generation (RAG). In contrast to unguided language model generation, RAG systems combine generative models with external knowledge retrieval, allowing responses to be grounded in a curated body of literature or domain-specific knowledge [@albashrawi2025; @soroush2025]. This grounding improves transparency and traceability by linking generated explanations to identifiable sources. For topics such as cognitive bias detection, this architecture is particularly relevant because meaningful support requires connecting narrative descriptions of decision processes with established theoretical concepts and evidence-based debiasing strategies.
 
 Detecting biases in realistic professional narratives, however, remains difficult. Cognitive biases are rarely expressed explicitly; instead, they are often reflected indirectly in interpretation patterns, selective framing of information, or reliance on memorable narratives rather than statistical evidence [@echterhoff2024; @korteling2023]. These characteristics make subtle biases difficult to identify through introspection or self-report. Narrative materials such as Cognitive Task Analysis (CTA) interviews therefore provide a challenging but ecologically relevant test case for exploring AI-supported bias detection.
 
@@ -72,11 +73,11 @@ For the design og cognitive joint systems, two goals can be derived from Bounded
 
 # Method
 
-This project followed an exploratory, design-oriented proof-of-concept approach structured into five successive phases: (1) literature exploration and corpus scoping, (2) automated corpus construction, (3) RAG-based testing with structured professional scenarios, (4) evaluation framework development using simulated CTA interviews, and (5) implementation of a local RAG system to address technical constraints.
+This project followed an exploratory, design-oriented proof-of-concept approach structured into five successive phases: (1) literature exploration and corpus scoping, (2) automated corpus construction, (3) RAG-based testing with structured professional scenarios, (4) evaluation framework development using simulated CTA interviews, and (5) implementation of a local RAG system to address technical constraints. In the following sections the approach is summarized, whereas a detailed report can be found in @surall2026.
 
 ## Literature Corpus (Phases 1--2)
 
-The first phase systematically identified literature on cognitive biases, debiasing strategies, human--AI interaction, and large language models. Searches covered PsycINFO, PubMed/MEDLINE, Web of Science, Scopus, ACM Digital Library, IEEE Xplore, and Google Scholar. Search string development was supported iteratively using ChatGPT. In the second phase, a Python-based Scopus web scraper was used to extract article metadata, producing an initial corpus of more than 250 research papers after combined manual and automated retrieval.
+The first phase systematically identified literature on cognitive biases, debiasing strategies and human--AI interaction. Searches covered PsycINFO, PubMed/MEDLINE, Web of Science, Scopus, ACM Digital Library, IEEE Xplore, and Google Scholar. Search string development was supported iteratively using ChatGPT. In the second phase, a Python-based Scopus web scraper was used to extract article metadata, producing an initial corpus of more than 250 research papers after combined manual and automated retrieval.
 
 ## Scenario Testing with NotebookLM (Phase 3)
 
@@ -85,7 +86,9 @@ The literature corpus was loaded into Google NotebookLM---which supports up to 5
 
 ## CTA Interview Materials (Phase 4)
 
-To increase task realism, two simulated CTA interview narratives were generated using ChatGPT, with instructions to embed one to three biases per narrative without making them explicitly identifiable. The first interview was shorter and focused on operational decision-making; the second was longer and included unrelated contextual content (stress management, hobbies) to simulate realistic interview noise. An annotated reference solution---mapping each bias to specific transcript passages and explanations---was created to serve as a benchmark for future human--RAG comparison.
+To increase task realism, two simulated CTA interview narratives were generated using ChatGPT, with instructions to embed up to three biases per narrative without making them explicitly identifiable. The first interview was shorter and focused on operational decision-making; the second was longer and included unrelated contextual content (stress management, hobbies) to simulate realistic interview noise. An annotated reference solution---mapping each bias to specific transcript passages and explanations---was created to serve as a benchmark for future human--RAG comparison.
+
+Biases were embedded in statements describing operational reasoning, for example: “I considered rerouting it slightly, but last time I tried a new path it didn’t help, so I stuck with the standard route.” This passage illustrates a preference for established procedures and reluctance to deviate from prior decisions, which corresponds to status quo bias and conservatism. Other passages reflected patterns such as reliance on past outcomes, assumptions about predictability of others’ behaviour, and optimistic expectations about system stability.
 
 ## Local RAG Implementation (Phase 5)
 
@@ -125,15 +128,20 @@ Several practical constraints limit the current scope of the system. The prompt-
 
 ## Limitations
 
-The professional scenarios used in testing were fictional and relatively structured, limiting ecological validity. The simulated CTA interviews were not fully evaluated due to the prompt-length constraint. The local RAG setup underestimates achievable performance because hardware limitations required a low-capacity model. Finally, the literature corpus was only partially curated, and the subset available for embedding may not have been optimally composed for targeted retrieval.
+The professional scenarios used in testing were fictional and relatively structured, limiting ecological validity. Because cognitive biases were intentionally embedded within the scenarios, their presence may have been more detectable than in naturally occurring professional narratives. As a result, the detection rates observed in structured testing conditions may overestimate performance in real-world settings where biases are more subtle and context-dependent.
+On teh opposite, the simulated CTA interviews were not fully evaluated due to the prompt-length constraint. The local RAG setup underestimates achievable performance because hardware limitations required a low-capacity model. Finally, the literature corpus was only partially curated, and the subset available for embedding may not have been optimally composed for targeted retrieval.
 
 ## Future Directions
 
 Future work should (1) develop a focused, curated corpus of key publications on cognitive biases and decision-making to improve retrieval precision; (2) test the system using more capable local RAG configurations on higher-performance hardware, enabling analysis of complete CTA interview transcripts without fragmentation; (3) conduct a systematic comparison between human expert bias detection and RAG-based detection using the evaluation framework developed in Phase 4; and (4) explore integration of RAG-based bias detection into professional training environments as a reflective decision-support tool.
 
+In addition, future studies should evaluate system performance using more ecologically valid materials, including real-world professional narratives and naturally occurring CTA interview data. Such studies should incorporate systematic reporting of false positives, false negatives, and cases of label disagreement to provide a more comprehensive understanding of detection behavior. Establishing inter-rater reliability among human annotators will further strengthen the validity of reference annotations.
+
+Future evaluations should also include human comparison baselines, allowing calculation of standard performance metrics such as precision and recall. These measures will support more rigorous benchmarking and enable clearer assessment of how well detection accuracy observed in synthetic materials generalizes to real-world contexts. Finally, future research may explore adaptive retrieval strategies and corpus structuring methods to optimize retrieval performance in large-scale knowledge bases.
+
 # Conclusion
 
-In an ideal joint cognitive system the partners complement each other rather than mirror or in the worst case amplify each others biases. Being able to identify potential biases early in the process is a critical step towards this goal. The present project demonstrates that detecting cognitive biases in requirements narratives is possible, making use of the extensive literature. It seems possible to build a RAG-based requirements analysis tools that can bring this expert knowledge to the system analysts in the field.
+In an ideal joint cognitive system the partners complement each other rather than mirror or in the worst case amplify each others biases. Being able to identify potential biases early in the process is a critical step towards this goal. The present project demonstrates that detecting cognitive biases in requirements narratives is possible, making use of the extensive scientific literature. Bridging the gap between scientific research and engineering has always been a challenge. It seems feasible to build RAG-based tools that deliver on-demand scientific knowledge to system analysts in the field.
 
 # References {.unnumbered}
 
