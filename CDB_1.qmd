@@ -28,19 +28,19 @@ bibliography: references.bib
 #csl: acm-sig-proceedings.csl   # swap for your preferred ACM CSL
 #csl: acmart
 format:
-  # pdf:
-  #   documentclass: acmart
-  #   classoption:
-  #     - sigconf
-  #     - review
-  #   keep-tex: true
-  #   number-sections: true
-  #   colorlinks: true
-  #   #geometry:
-  #   #  - top=1in
-  #   #  - bottom=1.25in
-  #   #  - left=0.75in
-  #   #  - right=0.75in
+  pdf:
+    documentclass: acmart
+    classoption:
+      - sigconf
+      - review
+    keep-tex: true
+    number-sections: true
+    colorlinks: true
+    #geometry:
+    #  - top=1in
+    #  - bottom=1.25in
+    #  - left=0.75in
+    #  - right=0.75in
   html:
     toc: true
     number-sections: true
