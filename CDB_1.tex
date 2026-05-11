@@ -5,10 +5,9 @@
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
-  sigconf,
-  review]{acmart}
+]{article}
 \usepackage{xcolor}
-%\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb}
 \setcounter{secnumdepth}{5}
 \usepackage{iftex}
 \ifPDFTeX
@@ -200,6 +199,7 @@ Joint Cognitive Systems: A Feasibility Study}
 \author{Martin Schmettow \and Joel Surall \and Valeria Resendez Gomez}
 \date{}
 \begin{document}
+\maketitle
 \begin{abstract}
 Cognitive biases systematically impair professional decision-making, and
 AI systems trained on human-generated data risk inheriting or amplifying
@@ -219,7 +219,6 @@ starting point for AI-supported bias awareness in complex professional
 contexts, contingent on curated knowledge bases and capable language
 models.
 \end{abstract}
-\maketitle
 
 
 \section{Introduction}\label{introduction}
@@ -320,31 +319,53 @@ exploring AI-supported bias detection.
 
 \subsection{Aim of the Study}\label{aim-of-the-study}
 
-For the design og cognitive joint systems, two goals can be derived from
+For the design of cognitive joint systems, two goals can be derived from
 Bounded Rationality, (a) a \emph{preventive strategy} in which
 identified biases are prevented from entering AI training data, and (b)
 an \emph{progressive strategy} in which the system is specifically
-trained to counteract biases in joint human--AI operation. The present
-project developed and explored a proof-of-concept for a
-literature-grounded RAG system aimed at detecting cognitive biases in
-user requirement artifacts. The project investigated whether an AI
-system anchored in a curated body of cognitive bias literature could
-identify bias patterns in fictional professional scenarios and narrative
-interview material across multiple professional domains.
+trained to counteract biases in joint human--AI operation. Building
+systems that are de-biased during training and act in a de-biasing
+manner at runtime starts with the identification of potential biases
+during the requirements analysis phase.
+
+The relevant literature on cognitive biases is extensive and detailed,
+which is beneficial for the purpose, but would require extreme levels of
+expertise from analysts in the field. The present project explored the
+use of a literature-grounded RAG system that can identify potential
+cognitive biases in user requirement artifacts
+Figure~\ref{fig-study-design}, such as user stories of professionals.
+
+Testing the performance of a RAG-based bias identification system
+requires test cases with previously identified hints for biases.
+Ideally, such a corpus of test cases would span several application
+domains. However, collecting and annotating real-world professional
+narratives is time-consuming and resource-intensive. To test the
+feasibility of a bias identification system structured professional
+scenarios were generated using ChatGPT, with intentional seeded hints
+for cognitive biases Figure~\ref{fig-study-design}.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{study_design.pdf}}
+
+}
+
+\caption{\label{fig-study-design}Study design, components and workflow}
+
+\end{figure}%
 
 \section{Method}\label{method}
 
 This project followed an exploratory, design-oriented proof-of-concept
-approach structured into five successive phases: (1) literature
-exploration and corpus scoping, (2) automated corpus construction, (3)
-RAG-based testing with structured professional scenarios, (4) evaluation
-framework development using simulated CTA interviews, and (5)
-implementation of a local RAG system to address technical constraints.
-In the following sections the approach is summarized, whereas a detailed
-report can be found in Surall and Schmettow (2026).
+approach structured into five successive phases: literature exploration
+and corpus scoping, automated corpus construction, RAG-based testing
+with structured professional scenarios, evaluation framework development
+using simulated CTA interviews, and implementation of a local RAG system
+to address technical constraints.
 
-\subsection{Literature Corpus (Phases
-1--2)}\label{literature-corpus-phases-12}
+\subsection{Literature Corpus}\label{literature-corpus}
 
 The first phase systematically identified literature on cognitive
 biases, debiasing strategies and human--AI interaction. Searches covered
@@ -355,8 +376,8 @@ web scraper was used to extract article metadata, producing an initial
 corpus of more than 250 research papers after combined manual and
 automated retrieval.
 
-\subsection{Scenario Testing with NotebookLM (Phase
-3)}\label{scenario-testing-with-notebooklm-phase-3}
+\subsection{Scenario Testing with
+NotebookLM}\label{scenario-testing-with-notebooklm}
 
 To conduct an initial feasibility test, fictional professional scenarios
 were constructed using ChatGPT across five domains: emergency medicine
@@ -373,8 +394,8 @@ suggest debiasing actions. Detected biases were compared with the
 embedded reference set; ChatGPT assisted in summarizing the overlap, and
 results were manually reviewed for accuracy.
 
-\subsection{CTA Interview Materials (Phase
-4)}\label{cta-interview-materials-phase-4}
+\subsection{Generating seeded
+narratives}\label{generating-seeded-narratives}
 
 To increase task realism, two simulated CTA interview narratives were
 generated using ChatGPT, with instructions to embed up to three biases
@@ -395,8 +416,7 @@ quo bias and conservatism. Other passages reflected patterns such as
 reliance on past outcomes, assumptions about predictability of others'
 behaviour, and optimistic expectations about system stability.
 
-\subsection{Local RAG Implementation (Phase
-5)}\label{local-rag-implementation-phase-5}
+\subsection{Local RAG Implementation}\label{local-rag-implementation}
 
 Because NotebookLM imposes a prompt input limit of approximately 250
 words---preventing analysis of full interview transcripts---a local RAG
@@ -409,8 +429,70 @@ biases in the embedded literature-grounded setting.
 
 \section{Results}\label{results}
 
-\subsection{Structured Scenario
-Testing}\label{structured-scenario-testing}
+Table~\ref{tbl-biases} illustrates examples of cognitive biases
+identified in five different professional domains, along with the
+narrative hints that triggered detection and the system's interpretive
+responses.''
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1200}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1800}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.4000}}@{}}
+\caption{Examples of seeded cognitive biases and identification
+response.}\label{tbl-biases}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Domain
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Bias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Narrative hint
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Identification response (NotebookLM)
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Domain
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Bias
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Narrative hint
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Identification response (NotebookLM)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ED Triage & Premature closure & The ED is overcrowded, several patients
+are waiting, and troponin results are still pending. & ``Driven by high
+workload and time pressure, the physician may accept a plausible initial
+diagnosis based on limited information (e.g., normal ECG) without
+waiting for sufficient evidence.'' \\
+Aviation & Omission bias / action bias & Continuing the flight avoids
+disruption, while diverting introduces immediate operational costs and
+complexity. & ``The pilot may prefer maintaining the current course
+(omission) because the perceived immediate costs of intervention are
+more salient than the uncertain risks of inaction.'' \\
+Finance & Story bias / representativeness heuristic & The applicant
+presents a compelling and coherent narrative with strong early traction.
+& ``The narrative engages intuitive System 1 thinking, leading the
+analyst to rely on a coherent story and classify the startup based on
+similarity to successful prototypes rather than objective data.'' \\
+Cybersecurity & Availability bias & The traffic resembles a previously
+documented low-impact intrusion. & ``The prior incident is easily
+retrievable and salient, causing the analyst to rely on this accessible
+memory to judge the current event as benign, especially under stress and
+time pressure.'' \\
+Hiring & Halo effect & The candidate graduated from a prestigious
+university and interviewed confidently. & ``The evaluator may generalize
+from one salient positive attribute (prestige/confidence) to infer
+broader competence, despite limited evidence across relevant
+dimensions.'' \\
+\end{longtable}
 
 Across the five professional scenarios, NotebookLM identified 20 of the
 21 intentionally embedded biases (95.2\%). The single missed bias was
@@ -419,7 +501,9 @@ probabilistic reasoning bias not explicitly cued in the narrative. In
 the remaining four scenarios, all embedded biases were detected. In
 several cases the system applied slightly different labels than the
 predefined categories, but the underlying concepts corresponded closely
-to the intended biases.
+to the intended biases. Table~\ref{tbl-biases} provides examples of
+identified biases across domains, illustrating the narrative hints and
+the system's interpretive responses.
 
 Beyond identification, the system consistently linked detected biases to
 contextual triggers within the scenarios, including time pressure,
@@ -430,22 +514,6 @@ applying checklists or cognitive forcing techniques, and encouraging
 consideration of alternative interpretations. Detection was strongest
 for explicitly cued biases such as anchoring, confirmation bias,
 automation bias, authority bias, and escalation of commitment.
-
-\subsection{CTA Interview Framework}\label{cta-interview-framework}
-
-Phase 4 produced two simulated CTA interview narratives embedding a
-range of subtle biases---including confirmation bias, status
-quo/conservatism bias, optimism bias, availability bias, overconfidence,
-and anchoring---alongside a structured evaluation framework. This
-framework comprised a participant reporting form, a multi-evaluator
-comparison checklist, and an annotated reference solution.
-
-However, the planned comparison between RAG-based and human expert
-detection could not be executed. The prompt-length limit of NotebookLM
-(approximately 250 words) prevented the full interview transcripts from
-being submitted as input. Fragmenting the interviews would have removed
-contextual cues necessary for interpreting the embedded biases, so this
-strategy was not pursued.
 
 \subsection{Local RAG System}\label{local-rag-system}
 
@@ -487,6 +555,12 @@ These properties are relevant to both application strategies motivating
 the project: preventing biased patterns from contaminating AI training
 corpora and supporting active debiasing in joint human--AI operation.
 
+In more general, the project demonstrates the usefulness of standard LLM
+techniques for requirements analysis in general. Narratives are as much
+common in systems design, as they are costly to collect. Using generated
+narratives is a promising short-cut in the development of user
+requirements analysis methods.
+
 \subsection{Technical Constraints}\label{technical-constraints}
 
 Several practical constraints limit the current scope of the system. The
@@ -509,7 +583,7 @@ intentionally embedded within the scenarios, their presence may have
 been more detectable than in naturally occurring professional
 narratives. As a result, the detection rates observed in structured
 testing conditions may overestimate performance in real-world settings
-where biases are more subtle and context-dependent. On teh opposite, the
+where biases are more subtle and context-dependent. On the opposite, the
 simulated CTA interviews were not fully evaluated due to the
 prompt-length constraint. The local RAG setup underestimates achievable
 performance because hardware limitations required a low-capacity model.
@@ -552,12 +626,13 @@ knowledge bases.
 In an ideal joint cognitive system the partners complement each other
 rather than mirror or in the worst case amplify each others biases.
 Being able to identify potential biases early in the process is a
-critical step towards this goal. The present project demonstrates that
-detecting cognitive biases in requirements narratives is possible,
-making use of the extensive scientific literature. Bridging the gap
-between scientific research and engineering has always been a challenge.
-It seems feasible to build RAG-based tools that deliver on-demand
-scientific knowledge to system analysts in the field.
+critical step towards systems that are de-biased at development time and
+actively de-bias human operators during run-time. The present project
+demonstrates that detecting cognitive biases in requirements narratives
+is possible, making use of the extensive scientific literature. Bridging
+the gap between scientific research and engineering has always been a
+challenge. It seems feasible to build RAG-based tools that enable
+scientifically grounded user requirements analysis.
 
 \section*{References}\label{references}
 \addcontentsline{toc}{section}{References}
@@ -681,12 +756,6 @@ Soroush, A., M. Giuffrè, S. Chung, and D. L. Shung. 2025. {``Generative
 Artificial Intelligence in Clinical Medicine and Impact on
 Gastroenterology.''} \emph{Gastroenterology} 169 (3): 502--517.e1.
 \url{https://doi.org/10.1053/j.gastro.2025.03.038}.
-
-\bibitem[\citeproctext]{ref-surall2026}
-Surall, J., and M. Schmettow. 2026. {``Cognitive Biases in Human-{AI}
-Interaction: {A} Systematic Review of Bias Types, Mitigation Strategies,
-and Future Research Directions.''}
-\url{https://github.com/schmettow/pub-cog-debias/blob/main/Surall_Schmettow_cognitive_debiasing.pdf}.
 
 \bibitem[\citeproctext]{ref-theodorakopoulos2025}
 Theodorakopoulos, L., A. Theodoropoulou, and C. Halkiopoulos. 2025.
