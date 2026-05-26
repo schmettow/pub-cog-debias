@@ -228,15 +228,14 @@ Decision-Making}\label{cognitive-bias-in-professional-decision-making}
 
 Professionals in domains such as healthcare, aviation, and management
 frequently make critical decisions under conditions of time pressure,
-uncertainty, and high workload (Berthet 2022; Egoda Kapuralalage et al.
-2025; Korentsides et al. 2026). In such environments, decision-making is
-often supported by heuristics---intuitive mental shortcuts---that allow
-individuals to process information rapidly and efficiently (Agarwal et
-al. 2023; Korteling and Toet 2022). Although heuristics help manage
-limited cognitive resources, they can also lead to systematic deviations
-from rational standards of reasoning and probability. These deviations
-are commonly described as cognitive biases (Knipper et al. 2025;
-Korteling and Toet 2022).
+uncertainty, and high workload (Berthet 2022; Korentsides et al. 2026).
+In such environments, decision-making is often supported by
+heuristics---intuitive mental shortcuts---that allow individuals to
+process information rapidly and efficiently (Korteling and Toet 2022).
+Although heuristics help manage limited cognitive resources, they can
+also lead to systematic deviations from rational standards of reasoning
+and probability. These deviations are commonly described as cognitive
+biases (Knipper et al. 2025; Korteling and Toet 2022).
 
 Cognitive biases have been linked to errors in a wide range of
 professional contexts. In surgical environments they have been
@@ -258,52 +257,59 @@ At the same time, artificial intelligence (AI) and automated
 decision-support systems are increasingly integrated into professional
 workflows. While such systems are often expected to improve decision
 quality, they do not automatically eliminate cognitive biases. AI
-systems frequently inherit patterns present in human-generated data and
-can reproduce or amplify biased reasoning structures (Aich 2025; Vicente
-and Matute 2023). In addition, the presence of automated recommendations
-can influence human judgment through \emph{automation bias}---the
-tendency to over-rely on algorithmic outputs even when contradictory
-information is available (Romeo and Conti 2026). Under conditions of
-time pressure and cognitive load, professionals may therefore defer
-uncritically to algorithmic suggestions, creating situations in which
-human and machine biases interact rather than cancel each other out (Lim
-2025; Mahajan et al. 2025).
+systems frequently inherit patterns present in human-generated data
+(Hays 2026) and can reproduce or amplify biased reasoning structures
+(Aich 2025; Vicente and Matute 2023). In addition, the presence of
+automated recommendations can influence human judgment through
+\emph{automation bias}---the tendency to over-rely on algorithmic
+outputs even when contradictory information is available (Romeo and
+Conti 2026). Under conditions time pressure, high task complexity,
+environmental stress and fatigue, professionals may therefore
+uncritically transfer responsibility to the automation, creating
+situations in which human and machine biases interact or amplify rather
+than cancel each other out (Lim 2025; Mahajan et al. 2025).
 
 In response to these challenges, recent research has explored debiasing
 strategies aimed at promoting more reflective and analytically engaged
 decision-making. These approaches include metacognitive training,
 cognitive forcing functions, and system designs that introduce
-deliberate friction to encourage users to reconsider initial judgments
-(Baruh, Cemalcilar, and Stoycheff 2026; Cabitza et al. 2024). Other
-proposals involve collaborative AI architectures, such as multi-agent
-systems or adversarial prompting approaches, which challenge preliminary
-conclusions and encourage the consideration of alternative explanations
-(Cabitza et al. 2024; Ke et al. 2024). Across these approaches, a common
-principle is that decision quality can improve when individuals are
-supported in questioning initial interpretations and considering
-alternative explanations.
+deliberate friction, preventing dangerous shortcuts and nudge operators
+towards reflection (Baruh, Cemalcilar, and Stoycheff 2026; Cabitza et
+al. 2024). Other proposals involve collaborative AI architectures, such
+as multi-agent systems or adversarial prompting approaches, which
+challenge preliminary conclusions and encourage the consideration of
+alternative explanations (Cabitza et al. 2024; Ke et al. 2024).
 
-\subsection{Retrieval-Augmented Generation for Bias
-Detection}\label{retrieval-augmented-generation-for-bias-detection}
+Across these approaches, a common principle is that decision quality can
+improve when decision makers are supported in questioning initial
+interpretations and considering alternative explanations. What is
+currently lacking is an analysis method that informs system designers
+where precisely such measures are needed by identifying vulnerable
+patterns early in the design process.
+
+\subsection{Literature-backed Bias
+Detection}\label{literature-backed-bias-detection}
 
 Research on cognitive biases is rooted in the concept of bounded
-rationality, first introduced by Herbert Simon. The
+rationality, first introduced by Herbert Simon (Simon 1990). The
 heuristics-and-biases research program developed by Kahneman and Tversky
 later expanded this work by showing how human judgment systematically
-departs from ideal rational models. The theme of Bounded Rationality has
-been very productive in the past and present, which makes it challenging
-to absorb into a user requirements analysis method. At the same time the
-immense body of literature could serve very well to create an LLM-based
-conversational agent using retrieval-augmented generation (RAG). In
-contrast to unguided language model generation, RAG systems combine
-generative models with external knowledge retrieval, allowing responses
-to be grounded in a curated body of literature or domain-specific
-knowledge (Albashrawi 2025; Soroush et al. 2025). This grounding
-improves transparency and traceability by linking generated explanations
-to identifiable sources. For topics such as cognitive bias detection,
-this architecture is particularly relevant because meaningful support
-requires connecting narrative descriptions of decision processes with
-established theoretical concepts and evidence-based debiasing
+departs from ideal rational models (Tversky and Kahneman 1974). The
+theme of Bounded Rationality has been very productive in the past and
+present, which makes it challenging to absorb into a user requirements
+analysis method.
+
+At the same time the immense body of literature could serve very well to
+create an LLM-based conversational agent using retrieval-augmented
+generation (RAG). In contrast to unguided language model generation, RAG
+systems combine generative models with external knowledge retrieval,
+allowing responses to be grounded in a curated body of literature or
+domain-specific knowledge (Albashrawi 2025; Soroush et al. 2025). This
+grounding improves transparency and traceability by linking generated
+explanations to identifiable sources. For topics such as cognitive bias
+detection, this architecture is particularly relevant because meaningful
+support requires connecting narrative descriptions of decision processes
+with established theoretical concepts and evidence-based debiasing
 strategies.
 
 Detecting biases in realistic professional narratives, however, remains
@@ -319,14 +325,14 @@ exploring AI-supported bias detection.
 
 \subsection{Aim of the Study}\label{aim-of-the-study}
 
-For the design of cognitive joint systems, two goals can be derived from
-Bounded Rationality, (a) a \emph{preventive strategy} in which
-identified biases are prevented from entering AI training data, and (b)
-an \emph{progressive strategy} in which the system is specifically
-trained to counteract biases in joint human--AI operation. Building
-systems that are de-biased during training and act in a de-biasing
-manner at runtime starts with the identification of potential biases
-during the requirements analysis phase.
+For designing AI systems for complex decision making tasks, two
+strategies can be derived from Bounded Rationality, (a) a
+\emph{preventive strategy} in which identified biases are prevented from
+entering AI training data, and (b) a \emph{progressive strategy} in
+which the system is specifically trained to counteract biases in joint
+human--AI operation. Building systems that are de-biased during training
+and act in a de-biasing manner at runtime starts with the identification
+of potential biases during the requirements analysis phase.
 
 The relevant literature on cognitive biases is extensive and detailed,
 which is beneficial for the purpose, but would require extreme levels of
@@ -394,7 +400,7 @@ suggest debiasing actions. Detected biases were compared with the
 embedded reference set; ChatGPT assisted in summarizing the overlap, and
 results were manually reviewed for accuracy.
 
-\subsection{Generating seeded
+\subsection{Generating Seeded
 narratives}\label{generating-seeded-narratives}
 
 To increase task realism, two simulated CTA interview narratives were
@@ -627,12 +633,12 @@ In an ideal joint cognitive system the partners complement each other
 rather than mirror or in the worst case amplify each others biases.
 Being able to identify potential biases early in the process is a
 critical step towards systems that are de-biased at development time and
-actively de-bias human operators during run-time. The present project
-demonstrates that detecting cognitive biases in requirements narratives
-is possible, making use of the extensive scientific literature. Bridging
-the gap between scientific research and engineering has always been a
-challenge. It seems feasible to build RAG-based tools that enable
-scientifically grounded user requirements analysis.
+actively de-bias human decision makers during run-time. The present
+project demonstrates that detecting cognitive biases in requirements
+narratives is possible, making use of the extensive scientific
+literature. Bridging the gap between scientific research and engineering
+has always been a challenge. It seems feasible to build RAG-based tools
+that enable scientifically grounded user requirements analysis.
 
 \section*{References}\label{references}
 \addcontentsline{toc}{section}{References}
@@ -697,6 +703,11 @@ Biases and Heuristics in Triage Decisions in the Emergency
 Department.''} \emph{The American Journal of Emergency Medicine} 92:
 60--67. \url{https://doi.org/10.1016/j.ajem.2025.02.043}.
 
+\bibitem[\citeproctext]{ref-hays_meta_2026}
+Hays, Kali. 2026. {``Meta to Track Workers' Clicks and Keystrokes to
+Train AI.''} BBC News.
+\url{https://www.bbc.com/news/articles/cvglyklz49jo}.
+
 \bibitem[\citeproctext]{ref-ke2024}
 Ke, Y., R. Yang, S. A. Lie, T. X. Y. Lim, Y. Ning, I. Li, H. R.
 Abdullah, D. S. W. Ting, and N. Liu. 2024. {``Mitigating Cognitive
@@ -751,6 +762,10 @@ Human--{AI} Collaboration: {A} Review and Implications for Explainable
 {AI}.''} \emph{AI \& Society} 41 (1): 259--78.
 \url{https://doi.org/10.1007/s00146-025-02422-7}.
 
+\bibitem[\citeproctext]{ref-Simon_1990}
+Simon, Herbert A. 1990. {``Bounded Rationality,''} 15--18.
+https://doi.org/\url{https://doi.org/10.1007/978-1-349-20568-4_5}.
+
 \bibitem[\citeproctext]{ref-soroush2025}
 Soroush, A., M. Giuffrè, S. Chung, and D. L. Shung. 2025. {``Generative
 Artificial Intelligence in Clinical Medicine and Impact on
@@ -763,6 +778,12 @@ Theodorakopoulos, L., A. Theodoropoulou, and C. Halkiopoulos. 2025.
 Data-Driven Approach Integrating Big Data Analytics, {AI}, and
 Explainable Systems.''} \emph{Electronics} 14 (19): 3930.
 \url{https://doi.org/10.3390/electronics14193930}.
+
+\bibitem[\citeproctext]{ref-Tversky_1974}
+Tversky, Amos, and Daniel Kahneman. 1974. {``Judgment Under Uncertainty:
+Heuristics and Biases: Biases in Judgments Reveal Some Heuristics of
+Thinking Under Uncertainty.''} \emph{Science} 185 (4157): 1124--31.
+\url{https://doi.org/10.1126/science.185.4157.1124}.
 
 \bibitem[\citeproctext]{ref-vicente2023}
 Vicente, L., and H. Matute. 2023. {``Humans Inherit Artificial

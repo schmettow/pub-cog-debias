@@ -52,57 +52,53 @@ format:
 
 ## Cognitive Bias in Professional Decision-Making
 
-Professionals in domains such as healthcare, aviation, and management frequently make critical decisions under conditions of time pressure, uncertainty, and high workload [@berthet2022; @egoda2025; @korentsides2026]. In such environments, decision-making is often supported by heuristics---intuitive mental shortcuts---that allow individuals to process information rapidly and efficiently [@agarwal2023; @korteling2022]. Although heuristics help manage limited cognitive resources, they can also lead to systematic deviations from rational standards of reasoning and probability. These deviations are commonly described as cognitive biases [@knipper2025; @korteling2022].
+Professionals in domains such as healthcare, aviation, and management frequently make critical decisions under conditions of time pressure, uncertainty, and high workload [@berthet2022; @korentsides2026]. In such environments, decision-making is often supported by heuristics---intuitive mental shortcuts---that allow individuals to process information rapidly and efficiently [@korteling2022]. Although heuristics help manage limited cognitive resources, they can also lead to systematic deviations from rational standards of reasoning and probability. These deviations are commonly described as cognitive biases [@knipper2025; @korteling2022].
 
 Cognitive biases have been linked to errors in a wide range of professional contexts. In surgical environments they have been implicated in a substantial proportion of adverse clinical events [@agarwal2023]. In emergency departments, biases such as anchoring and availability can influence triage decisions and contribute to diagnostic errors [@bhuvaneswari2025; @egoda2025]. Similarly, in strategic and managerial decision-making, confirmation bias and overconfidence can distort risk assessment and contribute to flawed strategic choices [@rau2025; @theodorakopoulos2025]. These findings suggest that cognitive biases represent a persistent challenge for reliable decision-making in complex professional environments.
 
 ## AI-Supported Decision-Making and Bias Amplification
 
-At the same time, artificial intelligence (AI) and automated decision-support systems are increasingly integrated into professional workflows. While such systems are often expected to improve decision quality, they do not automatically eliminate cognitive biases. AI systems frequently inherit patterns present in human-generated data and can reproduce or amplify biased reasoning structures [@aich2025; @vicente2023]. In addition, the presence of automated recommendations can influence human judgment through *automation bias*---the tendency to over-rely on algorithmic outputs even when contradictory information is available [@romeo2026]. Under conditions of time pressure and cognitive load, professionals may therefore defer uncritically to algorithmic suggestions, creating situations in which human and machine biases interact rather than cancel each other out [@lim2025; @mahajan2025].
+At the same time, artificial intelligence (AI) and automated decision-support systems are increasingly integrated into professional workflows. While such systems are often expected to improve decision quality, they do not automatically eliminate cognitive biases. AI systems frequently inherit patterns present in human-generated data [@hays_meta_2026] and can reproduce or amplify biased reasoning structures [@aich2025; @vicente2023]. In addition, the presence of automated recommendations can influence human judgment through *automation bias*---the tendency to over-rely on algorithmic outputs even when contradictory information is available [@romeo2026]. Under conditions time pressure, high task complexity, environmental stress and fatigue, professionals may therefore uncritically transfer responsibility to the automation, creating situations in which human and machine biases interact or amplify rather than cancel each other out [@lim2025; @mahajan2025].
 
-In response to these challenges, recent research has explored debiasing strategies aimed at promoting more reflective and analytically engaged decision-making. These approaches include metacognitive training, cognitive forcing functions, and system designs that introduce deliberate friction to encourage users to reconsider initial judgments [@baruh2026; @cabitza2024]. Other proposals involve collaborative AI architectures, such as multi-agent systems or adversarial prompting approaches, which challenge preliminary conclusions and encourage the consideration of alternative explanations [@cabitza2024; @ke2024]. Across these approaches, a common principle is that decision quality can improve when individuals are supported in questioning initial interpretations and considering alternative explanations.
+In response to these challenges, recent research has explored debiasing strategies aimed at promoting more reflective and analytically engaged decision-making. These approaches include metacognitive training, cognitive forcing functions, and system designs that introduce deliberate friction, preventing dangerous shortcuts and nudge operators towards reflection [@baruh2026; @cabitza2024]. Other proposals involve collaborative AI architectures, such as multi-agent systems or adversarial prompting approaches, which challenge preliminary conclusions and encourage the consideration of alternative explanations [@cabitza2024; @ke2024].
 
-## Retrieval-Augmented Generation for Bias Detection
+Across these approaches, a common principle is that decision quality can improve when decision makers are supported in questioning initial interpretations and considering alternative explanations. What is currently lacking is an analysis method that informs system designers where precisely such measures are needed by identifying vulnerable patterns early in the design process.
 
-Research on cognitive biases is rooted in the concept of bounded rationality, first introduced by Herbert Simon [@Simon_1990]. The heuristics-and-biases research program developed by Kahneman and Tversky later expanded this work by showing how human judgment systematically departs from ideal rational models [@Tversky_1974]. The theme of Bounded Rationality has been very productive in the past and present, which makes it challenging to absorb into a user requirements analysis method. At the same time the immense body of literature could serve very well to create an LLM-based conversational agent using retrieval-augmented generation (RAG). In contrast to unguided language model generation, RAG systems combine generative models with external knowledge retrieval, allowing responses to be grounded in a curated body of literature or domain-specific knowledge [@albashrawi2025; @soroush2025]. This grounding improves transparency and traceability by linking generated explanations to identifiable sources. For topics such as cognitive bias detection, this architecture is particularly relevant because meaningful support requires connecting narrative descriptions of decision processes with established theoretical concepts and evidence-based debiasing strategies.
+## Literature-backed Bias Detection
+
+Research on cognitive biases is rooted in the concept of bounded rationality, first introduced by Herbert Simon [@Simon_1990]. The heuristics-and-biases research program developed by Kahneman and Tversky later expanded this work by showing how human judgment systematically departs from ideal rational models [@Tversky_1974]. The theme of Bounded Rationality has been very productive in the past and present, which makes it challenging to absorb into a user requirements analysis method.
+
+At the same time the immense body of literature could serve very well to create an LLM-based conversational agent using retrieval-augmented generation (RAG). In contrast to unguided language model generation, RAG systems combine generative models with external knowledge retrieval, allowing responses to be grounded in a curated body of literature or domain-specific knowledge [@albashrawi2025; @soroush2025]. This grounding improves transparency and traceability by linking generated explanations to identifiable sources. For topics such as cognitive bias detection, this architecture is particularly relevant because meaningful support requires connecting narrative descriptions of decision processes with established theoretical concepts and evidence-based debiasing strategies.
 
 Detecting biases in realistic professional narratives, however, remains difficult. Cognitive biases are rarely expressed explicitly; instead, they are often reflected indirectly in interpretation patterns, selective framing of information, or reliance on memorable narratives rather than statistical evidence [@echterhoff2024; @korteling2023]. These characteristics make subtle biases difficult to identify through introspection or self-report. Narrative materials such as Cognitive Task Analysis (CTA) interviews therefore provide a challenging but ecologically relevant test case for exploring AI-supported bias detection.
 
 ## Aim of the Study
 
-For the design of cognitive joint systems, two goals can be derived from Bounded Rationality, (a) a *preventive strategy* in which identified biases are prevented from entering AI training data, and (b) a *progressive strategy* in which the system is specifically trained to counteract biases in joint human--AI operation. 
-Building systems that are de-biased during training and act in a de-biasing manner at runtime starts with the identification of potential biases during the requirements analysis phase.
+For designing AI systems for complex decision making tasks, two strategies can be derived from Bounded Rationality, (a) a *preventive strategy* in which identified biases are prevented from entering AI training data, and (b) a *progressive strategy* in which the system is specifically trained to counteract biases in joint human--AI operation. Building systems that are de-biased during training and act in a de-biasing manner at runtime starts with the identification of potential biases during the requirements analysis phase.
 
-The relevant literature on cognitive biases is extensive and detailed, which is beneficial for the purpose, but would require extreme levels of expertise from analysts in the field. 
-The present project explored the use of a literature-grounded RAG system that can identify potential cognitive biases in user requirement artifacts [@fig-study-design], such as user stories of professionals.
+The relevant literature on cognitive biases is extensive and detailed, which is beneficial for the purpose, but would require extreme levels of expertise from analysts in the field. The present project explored the use of a literature-grounded RAG system that can identify potential cognitive biases in user requirement artifacts [@fig-study-design], such as user stories of professionals.
 
-Testing the performance of a RAG-based bias identification system requires test cases with previously identified hints for biases. Ideally, such a corpus of test cases would span several application domains. However, collecting and annotating real-world professional narratives is time-consuming and resource-intensive. To test the feasibility of a bias identification system structured professional scenarios were generated using ChatGPT, with intentional seeded  hints for cognitive biases [@fig-study-design].
+Testing the performance of a RAG-based bias identification system requires test cases with previously identified hints for biases. Ideally, such a corpus of test cases would span several application domains. However, collecting and annotating real-world professional narratives is time-consuming and resource-intensive. To test the feasibility of a bias identification system structured professional scenarios were generated using ChatGPT, with intentional seeded hints for cognitive biases [@fig-study-design].
 
 ![Study design, components and workflow](study_design.pdf){#fig-study-design out-width="100%"}
 
 # Method
 
-
-
 This project followed an exploratory, design-oriented proof-of-concept approach structured into five successive phases: literature exploration and corpus scoping, automated corpus construction, RAG-based testing with structured professional scenarios, evaluation framework development using simulated CTA interviews, and implementation of a local RAG system to address technical constraints.
- 
+
 ## Literature Corpus
 
 The first phase systematically identified literature on cognitive biases, debiasing strategies and human--AI interaction. Searches covered PsycINFO, PubMed/MEDLINE, Web of Science, Scopus, ACM Digital Library, IEEE Xplore, and Google Scholar. Search string development was supported iteratively using ChatGPT. In the second phase, a Python-based Scopus web scraper was used to extract article metadata, producing an initial corpus of more than 250 research papers after combined manual and automated retrieval.
 
 ## Scenario Testing with NotebookLM
 
-To conduct an initial feasibility test, fictional professional scenarios were constructed using ChatGPT across five domains: emergency medicine (chest-pain triage), aviation (flight decision-making), finance (loan approval), cybersecurity (incident response), and engineering/project management. Each scenario embedded a predefined set of cognitive biases reflecting decision conditions such as time pressure, incomplete information, workload, and social influence. In total, 21 biases were intentionally embedded across the five scenarios.
-The literature corpus was loaded into Google NotebookLM---which supports up to 50 simultaneously embedded PDF sources---and the system was prompted to identify cognitive biases, explain their contextual relevance, and suggest debiasing actions. Detected biases were compared with the embedded reference set; ChatGPT assisted in summarizing the overlap, and results were manually reviewed for accuracy.
+To conduct an initial feasibility test, fictional professional scenarios were constructed using ChatGPT across five domains: emergency medicine (chest-pain triage), aviation (flight decision-making), finance (loan approval), cybersecurity (incident response), and engineering/project management. Each scenario embedded a predefined set of cognitive biases reflecting decision conditions such as time pressure, incomplete information, workload, and social influence. In total, 21 biases were intentionally embedded across the five scenarios. The literature corpus was loaded into Google NotebookLM---which supports up to 50 simultaneously embedded PDF sources---and the system was prompted to identify cognitive biases, explain their contextual relevance, and suggest debiasing actions. Detected biases were compared with the embedded reference set; ChatGPT assisted in summarizing the overlap, and results were manually reviewed for accuracy.
 
-## Generating seeded narratives
+## Generating Seeded narratives
 
 To increase task realism, two simulated CTA interview narratives were generated using ChatGPT, with instructions to embed up to three biases per narrative without making them explicitly identifiable. The first interview was shorter and focused on operational decision-making; the second was longer and included unrelated contextual content (stress management, hobbies) to simulate realistic interview noise. An annotated reference solution---mapping each bias to specific transcript passages and explanations---was created to serve as a benchmark for future human--RAG comparison.
 
 Biases were embedded in statements describing operational reasoning, for example: “I considered rerouting it slightly, but last time I tried a new path it didn’t help, so I stuck with the standard route.” This passage illustrates a preference for established procedures and reluctance to deviate from prior decisions, which corresponds to status quo bias and conservatism. Other passages reflected patterns such as reliance on past outcomes, assumptions about predictability of others’ behaviour, and optimistic expectations about system stability.
-
-
-
 
 ## Local RAG Implementation
 
@@ -113,22 +109,18 @@ Because NotebookLM imposes a prompt input limit of approximately 250 words---pre
 @tbl-biases illustrates examples of cognitive biases identified in five different professional domains, along with the narrative hints that triggered detection and the system's interpretive responses."
 
 ::: {#tbl-biases tbl-cap="Examples of seeded cognitive biases and identification response." tbl-colwidths="[12,18,30,40]"}
-
-
 | Domain | Bias | Narrative hint | Identification response (NotebookLM) |
-|:---|:---|:---|:---|
+|:-----------------|:-----------------|:-----------------|:-----------------|
 | ED Triage | Premature closure | The ED is overcrowded, several patients are waiting, and troponin results are still pending. | "Driven by high workload and time pressure, the physician may accept a plausible initial diagnosis based on limited information (e.g., normal ECG) without waiting for sufficient evidence." |
 | Aviation | Omission bias / action bias | Continuing the flight avoids disruption, while diverting introduces immediate operational costs and complexity. | "The pilot may prefer maintaining the current course (omission) because the perceived immediate costs of intervention are more salient than the uncertain risks of inaction." |
 | Finance | Story bias / representativeness heuristic | The applicant presents a compelling and coherent narrative with strong early traction. | "The narrative engages intuitive System 1 thinking, leading the analyst to rely on a coherent story and classify the startup based on similarity to successful prototypes rather than objective data." |
 | Cybersecurity | Availability bias | The traffic resembles a previously documented low-impact intrusion. | "The prior incident is easily retrievable and salient, causing the analyst to rely on this accessible memory to judge the current event as benign, especially under stress and time pressure." |
 | Hiring | Halo effect | The candidate graduated from a prestigious university and interviewed confidently. | "The evaluator may generalize from one salient positive attribute (prestige/confidence) to infer broader competence, despite limited evidence across relevant dimensions." |
-
 :::
 
 Across the five professional scenarios, NotebookLM identified 20 of the 21 intentionally embedded biases (95.2%). The single missed bias was *base-rate neglect* in the emergency department scenario---a probabilistic reasoning bias not explicitly cued in the narrative. In the remaining four scenarios, all embedded biases were detected. In several cases the system applied slightly different labels than the predefined categories, but the underlying concepts corresponded closely to the intended biases. @tbl-biases provides examples of identified biases across domains, illustrating the narrative hints and the system’s interpretive responses.
 
 Beyond identification, the system consistently linked detected biases to contextual triggers within the scenarios, including time pressure, reliance on automated systems, authority influence, prior experiences, and organizational incentives. Suggested debiasing strategies focused on slowing decision processes, introducing structured review moments, applying checklists or cognitive forcing techniques, and encouraging consideration of alternative interpretations. Detection was strongest for explicitly cued biases such as anchoring, confirmation bias, automation bias, authority bias, and escalation of commitment.
-
 
 ## Local RAG System
 
@@ -146,15 +138,13 @@ The ability to link detected biases to contextual decision factors and to genera
 
 In more general, the project demonstrates the usefulness of standard LLM techniques for requirements analysis in general. Narratives are as much common in systems design, as they are costly to collect. Using generated narratives is a promising short-cut in the development of user requirements analysis methods.
 
-
 ## Technical Constraints
 
 Several practical constraints limit the current scope of the system. The prompt-length limitation of cloud-based RAG interfaces prevented the analysis of full CTA interview transcripts, highlighting a critical gap between the complexity of realistic qualitative data and the technical affordances of current tools. The local RAG implementation partially addressed this gap but introduced trade-offs related to hardware capacity and model performance. Taken together, these findings suggest that the effectiveness of literature-grounded RAG systems depends on three interacting factors: the reasoning capabilities of the underlying language model, system-level constraints such as context-length limits, and the quality and structure of the embedded knowledge corpus.
 
 ## Limitations
 
-The professional scenarios used in testing were fictional and relatively structured, limiting ecological validity. Because cognitive biases were intentionally embedded within the scenarios, their presence may have been more detectable than in naturally occurring professional narratives. As a result, the detection rates observed in structured testing conditions may overestimate performance in real-world settings where biases are more subtle and context-dependent.
-On the opposite, the simulated CTA interviews were not fully evaluated due to the prompt-length constraint. The local RAG setup underestimates achievable performance because hardware limitations required a low-capacity model. Finally, the literature corpus was only partially curated, and the subset available for embedding may not have been optimally composed for targeted retrieval.
+The professional scenarios used in testing were fictional and relatively structured, limiting ecological validity. Because cognitive biases were intentionally embedded within the scenarios, their presence may have been more detectable than in naturally occurring professional narratives. As a result, the detection rates observed in structured testing conditions may overestimate performance in real-world settings where biases are more subtle and context-dependent. On the opposite, the simulated CTA interviews were not fully evaluated due to the prompt-length constraint. The local RAG setup underestimates achievable performance because hardware limitations required a low-capacity model. Finally, the literature corpus was only partially curated, and the subset available for embedding may not have been optimally composed for targeted retrieval.
 
 ## Future Directions
 
@@ -164,10 +154,9 @@ In addition, future studies should evaluate system performance using more ecolog
 
 Future evaluations should also include human comparison baselines, allowing calculation of standard performance metrics such as precision and recall. These measures will support more rigorous benchmarking and enable clearer assessment of how well detection accuracy observed in synthetic materials generalizes to real-world contexts. Finally, future research may explore adaptive retrieval strategies and corpus structuring methods to optimize retrieval performance in large-scale knowledge bases.
 
-
 # Conclusion
 
-In an ideal joint cognitive system the partners complement each other rather than mirror or in the worst case amplify each others biases. Being able to identify potential biases early in the process is a critical step towards systems that are  de-biased at development time and actively de-bias human operators during run-time. The present project demonstrates that detecting cognitive biases in requirements narratives is possible, making use of the extensive scientific literature. Bridging the gap between scientific research and engineering has always been a challenge. It seems feasible to build RAG-based tools that enable scientifically grounded user requirements analysis.
+In an ideal joint cognitive system the partners complement each other rather than mirror or in the worst case amplify each others biases. Being able to identify potential biases early in the process is a critical step towards systems that are de-biased at development time and actively de-bias human decision makers during run-time. The present project demonstrates that detecting cognitive biases in requirements narratives is possible, making use of the extensive scientific literature. Bridging the gap between scientific research and engineering has always been a challenge. It seems feasible to build RAG-based tools that enable scientifically grounded user requirements analysis.
 
 # References {.unnumbered}
 
