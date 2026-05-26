@@ -5,9 +5,10 @@
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
-]{article}
+  sigconf,
+  review]{acmart}
 \usepackage{xcolor}
-\usepackage{amsmath,amssymb}
+% \usepackage{amsmath,amssymb}
 \setcounter{secnumdepth}{5}
 \usepackage{iftex}
 \ifPDFTeX
@@ -199,7 +200,7 @@ Joint Cognitive Systems: A Feasibility Study}
 \author{Martin Schmettow \and Joel Surall \and Valeria Resendez Gomez}
 \date{}
 \begin{document}
-\maketitle
+
 \begin{abstract}
 Cognitive biases systematically impair professional decision-making, and
 AI systems trained on human-generated data risk inheriting or amplifying
@@ -219,6 +220,8 @@ starting point for AI-supported bias awareness in complex professional
 contexts, contingent on curated knowledge bases and capable language
 models.
 \end{abstract}
+
+\maketitle
 
 
 \section{Introduction}\label{introduction}
@@ -350,7 +353,7 @@ feasibility of a bias identification system structured professional
 scenarios were generated using ChatGPT, with intentional seeded hints
 for cognitive biases Figure~\ref{fig-study-design}.
 
-\begin{figure}
+\begin{figure*}
 
 \centering{
 
@@ -360,7 +363,7 @@ for cognitive biases Figure~\ref{fig-study-design}.
 
 \caption{\label{fig-study-design}Study design, components and workflow}
 
-\end{figure}%
+\end{figure*}%
 
 \section{Method}\label{method}
 
@@ -440,65 +443,6 @@ identified in five different professional domains, along with the
 narrative hints that triggered detection and the system's interpretive
 responses.''
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1200}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1800}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3000}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.4000}}@{}}
-\caption{Examples of seeded cognitive biases and identification
-response.}\label{tbl-biases}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Domain
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Bias
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Narrative hint
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Identification response (NotebookLM)
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Domain
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Bias
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Narrative hint
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Identification response (NotebookLM)
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-ED Triage & Premature closure & The ED is overcrowded, several patients
-are waiting, and troponin results are still pending. & ``Driven by high
-workload and time pressure, the physician may accept a plausible initial
-diagnosis based on limited information (e.g., normal ECG) without
-waiting for sufficient evidence.'' \\
-Aviation & Omission bias / action bias & Continuing the flight avoids
-disruption, while diverting introduces immediate operational costs and
-complexity. & ``The pilot may prefer maintaining the current course
-(omission) because the perceived immediate costs of intervention are
-more salient than the uncertain risks of inaction.'' \\
-Finance & Story bias / representativeness heuristic & The applicant
-presents a compelling and coherent narrative with strong early traction.
-& ``The narrative engages intuitive System 1 thinking, leading the
-analyst to rely on a coherent story and classify the startup based on
-similarity to successful prototypes rather than objective data.'' \\
-Cybersecurity & Availability bias & The traffic resembles a previously
-documented low-impact intrusion. & ``The prior incident is easily
-retrievable and salient, causing the analyst to rely on this accessible
-memory to judge the current event as benign, especially under stress and
-time pressure.'' \\
-Hiring & Halo effect & The candidate graduated from a prestigious
-university and interviewed confidently. & ``The evaluator may generalize
-from one salient positive attribute (prestige/confidence) to infer
-broader competence, despite limited evidence across relevant
-dimensions.'' \\
-\end{longtable}
 
 Across the five professional scenarios, NotebookLM identified 20 of the
 21 intentionally embedded biases (95.2\%). The single missed bias was
@@ -538,6 +482,56 @@ consideration: retrieval quality did not improve with larger document
 collections. A large heterogeneous embedding space can reduce retrieval
 precision, suggesting that a smaller, carefully curated set of sources
 is preferable to a broad but loosely structured corpus.
+
+
+
+\begin{table*}[t]
+  \caption{Examples of generated scenarios with seeded biases and the identification response by NotebookLM}
+  \label{tbl-biases}
+  \centering
+  % 1. Reduce font size slightly to compress width/height
+  \small 
+  % 2. Tighten horizontal padding between columns (Default is 6pt)
+  \setlength{\tabcolsep}{4pt} 
+  
+  \begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1200}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1800}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.4000}}@{}} % Replace with your actual column specifiers
+    \toprule
+    % --- Copy your exact table headers here ---
+    Domain & Bias & Narrative & Identification \\
+    \midrule
+    ED Triage & Premature closure & The ED is overcrowded, several patients
+are waiting, and troponin results are still pending. & ``Driven by high
+workload and time pressure, the physician may accept a plausible initial
+diagnosis based on limited information (e.g., normal ECG) without
+waiting for sufficient evidence.'' \\
+Aviation & Omission bias / action bias & Continuing the flight avoids
+disruption, while diverting introduces immediate operational costs and
+complexity. & ``The pilot may prefer maintaining the current course
+(omission) because the perceived immediate costs of intervention are
+more salient than the uncertain risks of inaction.'' \\
+Finance & Story bias / representativeness heuristic & The applicant
+presents a compelling and coherent narrative with strong early traction.
+& ``The narrative engages intuitive System 1 thinking, leading the
+analyst to rely on a coherent story and classify the startup based on
+similarity to successful prototypes rather than objective data.'' \\
+Cybersecurity & Availability bias & The traffic resembles a previously
+documented low-impact intrusion. & ``The prior incident is easily
+retrievable and salient, causing the analyst to rely on this accessible
+memory to judge the current event as benign, especially under stress and
+time pressure.'' \\
+Hiring & Halo effect & The candidate graduated from a prestigious
+university and interviewed confidently. & ``The evaluator may generalize
+from one salient positive attribute (prestige/confidence) to infer
+broader competence, despite limited evidence across relevant
+dimensions.'' \\
+    
+    \bottomrule
+  \end{tabular}
+\end{table*}
 
 \section{Discussion}\label{discussion}
 
@@ -639,6 +633,9 @@ narratives is possible, making use of the extensive scientific
 literature. Bridging the gap between scientific research and engineering
 has always been a challenge. It seems feasible to build RAG-based tools
 that enable scientifically grounded user requirements analysis.
+
+
+
 
 \section*{References}\label{references}
 \addcontentsline{toc}{section}{References}

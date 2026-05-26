@@ -29,11 +29,11 @@ bibliography: references.bib
 #csl: acmart
 format:
   pdf:
-    documentclass: article
-    # documentclass: acmart
-    # classoption:
-    #   - sigconf
-    #   - review
+    # documentclass: article
+    documentclass: acmart
+    classoption:
+     - sigconf
+     - review
     keep-tex: true
     number-sections: true
     colorlinks: true
