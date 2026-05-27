@@ -158,6 +158,10 @@ Future evaluations should also include human comparison baselines, allowing calc
 
 In an ideal joint cognitive system the partners complement each other rather than mirror or in the worst case amplify each others biases. Being able to identify potential biases early in the process is a critical step towards systems that are de-biased at development time and actively de-bias human decision makers during run-time. The present project demonstrates that detecting cognitive biases in requirements narratives is possible, making use of the extensive scientific literature. Bridging the gap between scientific research and engineering has always been a challenge. It seems feasible to build RAG-based tools that enable scientifically grounded user requirements analysis.
 
+# AI Statement
+
+The initial version of this article was generated from a longer internal report using ChatGPT. After using this service, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article.
+
 # References {.unnumbered}
 
 ::: {#refs}
