@@ -32,8 +32,9 @@ format:
     # documentclass: article
     documentclass: acmart
     classoption:
-     - sigconf
+     - manuscript
      - review
+     - anonymous
     keep-tex: true
     number-sections: true
     colorlinks: true
@@ -78,31 +79,19 @@ For designing AI systems for complex decision making tasks, two strategies can b
 
 The relevant literature on cognitive biases is extensive and detailed, which is beneficial for the purpose, but would require extreme levels of expertise from analysts in the field. The present project explored the use of a literature-grounded RAG system that can identify potential cognitive biases in user requirement artifacts [@fig-study-design], such as user stories of professionals.
 
-Testing the performance of a RAG-based bias identification system requires test cases with previously identified hints for biases. Ideally, such a corpus of test cases would span several application domains. However, collecting and annotating real-world professional narratives is time-consuming and resource-intensive. To test the feasibility of a bias identification system structured professional scenarios were generated using ChatGPT, with intentional seeded hints for cognitive biases [@fig-study-design].
+Testing the performance of a RAG-based bias identification system requires test cases with previously identified hints for biases. Ideally, such a corpus of test cases would span several application domains. However, collecting and annotating real-world professional narratives is time-consuming and resource-intensive. To test the feasibility of a bias identification system structured professional scenarios were generated using ChatGPT, with intentional seeded hints for cognitive biases.
 
-![Study design, components and workflow](study_design.pdf){#fig-study-design out-width="100%"}
-
-# Method
+# Methods
 
 This project followed an exploratory, design-oriented proof-of-concept approach structured into five successive phases: literature exploration and corpus scoping, automated corpus construction, RAG-based testing with structured professional scenarios, evaluation framework development using simulated CTA interviews, and implementation of a local RAG system to address technical constraints.
 
-## Literature Corpus
-
-The first phase systematically identified literature on cognitive biases, debiasing strategies and human--AI interaction. Searches covered PsycINFO, PubMed/MEDLINE, Web of Science, Scopus, ACM Digital Library, IEEE Xplore, and Google Scholar. Search string development was supported iteratively using ChatGPT. In the second phase, a Python-based Scopus web scraper was used to extract article metadata, producing an initial corpus of more than 250 research papers after combined manual and automated retrieval.
-
-## Scenario Testing with NotebookLM
+First, we systematically identified literature on cognitive biases, debiasing strategies and human--AI interaction. Searches covered PsycINFO, PubMed/MEDLINE, Web of Science, Scopus, ACM Digital Library, IEEE Xplore, and Google Scholar. Search string development was supported iteratively using ChatGPT. In the second phase, a Python-based Scopus web scraper was used to extract article metadata, producing an initial corpus of more than 250 research papers after combined manual and automated retrieval.
 
 To conduct an initial feasibility test, fictional professional scenarios were constructed using ChatGPT across five domains: emergency medicine (chest-pain triage), aviation (flight decision-making), finance (loan approval), cybersecurity (incident response), and engineering/project management. Each scenario embedded a predefined set of cognitive biases reflecting decision conditions such as time pressure, incomplete information, workload, and social influence. In total, 21 biases were intentionally embedded across the five scenarios. The literature corpus was loaded into Google NotebookLM---which supports up to 50 simultaneously embedded PDF sources---and the system was prompted to identify cognitive biases, explain their contextual relevance, and suggest debiasing actions. Detected biases were compared with the embedded reference set; ChatGPT assisted in summarizing the overlap, and results were manually reviewed for accuracy.
-
-## Generating Seeded narratives
 
 To increase task realism, two simulated CTA interview narratives were generated using ChatGPT, with instructions to embed up to three biases per narrative without making them explicitly identifiable. The first interview was shorter and focused on operational decision-making; the second was longer and included unrelated contextual content (stress management, hobbies) to simulate realistic interview noise. An annotated reference solution---mapping each bias to specific transcript passages and explanations---was created to serve as a benchmark for future human--RAG comparison.
 
 Biases were embedded in statements describing operational reasoning, for example: “I considered rerouting it slightly, but last time I tried a new path it didn’t help, so I stuck with the standard route.” This passage illustrates a preference for established procedures and reluctance to deviate from prior decisions, which corresponds to status quo bias and conservatism. Other passages reflected patterns such as reliance on past outcomes, assumptions about predictability of others’ behaviour, and optimistic expectations about system stability.
-
-## Local RAG Implementation
-
-Because NotebookLM imposes a prompt input limit of approximately 250 words---preventing analysis of full interview transcripts---a local RAG system was implemented using OpenNotebookLM (an open-source alternative) running via the Ollama inference framework. Setup required manual troubleshooting beyond the available documentation. Due to hardware constraints (limited VRAM and RAM), only a lower-capacity language model could be run locally. The system was evaluated for its ability to detect biases in the embedded literature-grounded setting.
 
 # Results
 
@@ -110,7 +99,7 @@ Because NotebookLM imposes a prompt input limit of approximately 250 words---pre
 
 ::: {#tbl-biases tbl-cap="Examples of seeded cognitive biases and identification response." tbl-colwidths="[12,18,30,40]"}
 | Domain | Bias | Narrative hint | Identification response (NotebookLM) |
-|:---|:---|:---|:---|
+|:-----------------|:-----------------|:-----------------|:-----------------|
 | ED Triage | Premature closure | The ED is overcrowded, several patients are waiting, and troponin results are still pending. | "Driven by high workload and time pressure, the physician may accept a plausible initial diagnosis based on limited information (e.g., normal ECG) without waiting for sufficient evidence." |
 | Aviation | Omission bias / action bias | Continuing the flight avoids disruption, while diverting introduces immediate operational costs and complexity. | "The pilot may prefer maintaining the current course (omission) because the perceived immediate costs of intervention are more salient than the uncertain risks of inaction." |
 | Finance | Story bias / representativeness heuristic | The applicant presents a compelling and coherent narrative with strong early traction. | "The narrative engages intuitive System 1 thinking, leading the analyst to rely on a coherent story and classify the startup based on similarity to successful prototypes rather than objective data." |
@@ -122,31 +111,13 @@ Across the five professional scenarios, NotebookLM identified 20 of the 21 inten
 
 Beyond identification, the system consistently linked detected biases to contextual triggers within the scenarios, including time pressure, reliance on automated systems, authority influence, prior experiences, and organizational incentives. Suggested debiasing strategies focused on slowing decision processes, introducing structured review moments, applying checklists or cognitive forcing techniques, and encouraging consideration of alternative interpretations. Detection was strongest for explicitly cued biases such as anchoring, confirmation bias, automation bias, authority bias, and escalation of commitment.
 
-## Local RAG System
-
-The local OpenNotebookLM system was successfully installed and could process document sources and generate retrieval-grounded responses. Initial tests confirmed that the system could identify cognitive biases in provided material. However, detection quality was lower than in the NotebookLM experiments: some biases were described using broader conceptual language rather than precise bias labels, and some embedded biases were missed entirely. These limitations are attributed primarily to the lower reasoning capacity of the model required by the available hardware.
-
-The experiments also highlighted an important corpus-design consideration: retrieval quality did not improve with larger document collections. A large heterogeneous embedding space can reduce retrieval precision, suggesting that a smaller, carefully curated set of sources is preferable to a broad but loosely structured corpus.
-
 # Discussion
-
-## Feasibility and Scope
 
 The results demonstrate that a literature-grounded RAG system can operationalize cognitive bias detection when narrative cues are sufficiently salient. The near-complete detection rate in structured scenarios (20/21 biases) supports the feasibility of the approach for professional decision contexts. The single missed bias---base-rate neglect---was consistent with the broader literature on probabilistic reasoning biases, which are harder to detect because they depend on implicit statistical reasoning rather than explicit narrative cues [@knipper2025].
 
 The ability to link detected biases to contextual decision factors and to generate plausible debiasing suggestions illustrates the potential of RAG systems to translate theoretical constructs from cognitive psychology into interpretive tools for professional decision situations. These properties are relevant to both application strategies motivating the project: preventing biased patterns from contaminating AI training corpora and supporting active debiasing in joint human--AI operation.
 
 In more general, the project demonstrates the usefulness of standard LLM techniques for requirements analysis in general. Narratives are as much common in systems design, as they are costly to collect. Using generated narratives is a promising short-cut in the development of user requirements analysis methods.
-
-## Technical Constraints
-
-Several practical constraints limit the current scope of the system. The prompt-length limitation of cloud-based RAG interfaces prevented the analysis of full CTA interview transcripts, highlighting a critical gap between the complexity of realistic qualitative data and the technical affordances of current tools. The local RAG implementation partially addressed this gap but introduced trade-offs related to hardware capacity and model performance. Taken together, these findings suggest that the effectiveness of literature-grounded RAG systems depends on three interacting factors: the reasoning capabilities of the underlying language model, system-level constraints such as context-length limits, and the quality and structure of the embedded knowledge corpus.
-
-## Limitations
-
-The professional scenarios used in testing were fictional and relatively structured, limiting ecological validity. Because cognitive biases were intentionally embedded within the scenarios, their presence may have been more detectable than in naturally occurring professional narratives. As a result, the detection rates observed in structured testing conditions may overestimate performance in real-world settings where biases are more subtle and context-dependent. On the opposite, the simulated CTA interviews were not fully evaluated due to the prompt-length constraint. The local RAG setup underestimates achievable performance because hardware limitations required a low-capacity model. Finally, the literature corpus was only partially curated, and the subset available for embedding may not have been optimally composed for targeted retrieval.
-
-## Future Directions
 
 Future work should (1) develop a focused, curated corpus of key publications on cognitive biases and decision-making to improve retrieval precision; (2) test the system using more capable local RAG configurations on higher-performance hardware, enabling analysis of complete CTA interview transcripts without fragmentation; (3) conduct a systematic comparison between human expert bias detection and RAG-based detection using the evaluation framework developed in Phase 4; and (4) explore integration of RAG-based bias detection into professional training environments as a reflective decision-support tool.
 
