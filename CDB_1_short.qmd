@@ -1,5 +1,5 @@
 ---
-title: "Early Identification of Human Cognitive Biases in the Design of Human-AI Systems: A Feasibility Study"
+title: "Early Identification of Human Cognitive Biases in the Design of Joint Cognitive Systems: A Feasibility Study"
 author:
   - name: Martin Schmettow
     affiliation: University of Twente
