@@ -1,5 +1,5 @@
 ---
-title: "Early Identification of Human Cognitive Biases in the Design of Human-AI Systems: A Feasibility Study"
+title: "Early Identification of Human Cognitive Biases in the Design of Joint Cognitive Systems: A Feasibility Study"
 author:
   - name: Martin Schmettow
     affiliation: University of Twente
@@ -30,10 +30,10 @@ bibliography: references.bib
 format:
   pdf:
     # documentclass: article
-    documentclass: acmart
-    classoption:
-     - sigconf
-     - review
+    # documentclass: acmart
+    #classoption:
+    # - sigconf
+    # - review
     keep-tex: true
     number-sections: true
     colorlinks: true
@@ -110,7 +110,7 @@ Because NotebookLM imposes a prompt input limit of approximately 250 words---pre
 
 ::: {#tbl-biases tbl-cap="Examples of seeded cognitive biases and identification response." tbl-colwidths="[12,18,30,40]"}
 | Domain | Bias | Narrative hint | Identification response (NotebookLM) |
-|:---|:---|:---|:---|
+|:-----------------|:-----------------|:-----------------|:-----------------|
 | ED Triage | Premature closure | The ED is overcrowded, several patients are waiting, and troponin results are still pending. | "Driven by high workload and time pressure, the physician may accept a plausible initial diagnosis based on limited information (e.g., normal ECG) without waiting for sufficient evidence." |
 | Aviation | Omission bias / action bias | Continuing the flight avoids disruption, while diverting introduces immediate operational costs and complexity. | "The pilot may prefer maintaining the current course (omission) because the perceived immediate costs of intervention are more salient than the uncertain risks of inaction." |
 | Finance | Story bias / representativeness heuristic | The applicant presents a compelling and coherent narrative with strong early traction. | "The narrative engages intuitive System 1 thinking, leading the analyst to rely on a coherent story and classify the startup based on similarity to successful prototypes rather than objective data." |
